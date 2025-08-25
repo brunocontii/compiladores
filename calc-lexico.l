@@ -31,14 +31,12 @@ num [0-9]
 {letra}({letra}|{num})*		{ 
 								printf("ID : %s\n",yytext);
 								yylval.sval = strdup(yytext); // para copiar el valor de yytext
-								printf("YYLVAL.sval : %s\n", yylval.sval);
 								return TOKEN_ID;
 							}
 
 {num}+ 	{ 
 			printf("NUM : %s\n",yytext);
 			yylval.ival = atoi(yytext); // para convertir yytext en un int
-			printf("YYLVAL.ival : %d\n", yylval.ival);
 			return TOKEN_NUM;
 		}
 
