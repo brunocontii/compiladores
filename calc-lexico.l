@@ -13,16 +13,14 @@
 
 letra [a-zA-Z]
 num [0-9]
+
 %%
 
-"int"	{ 
-			printf("INT : %s\n",yytext);
-			return TOKEN_INT;
-		}
+"int"	{ printf("INT : %s\n",yytext); return TOKEN_INT; }
 
 "bool" 	{ printf("BOOL : %s\n",yytext); return TOKEN_BOOL; }
 
-"void" 	{ printf("VOID : %s\n",yytext); return TOKEN_VOID;}
+"void" 	{ printf("VOID : %s\n",yytext); return TOKEN_VOID; }
 
 "main" 	{ printf("MAIN : %s\n",yytext); return TOKEN_MAIN; }
 

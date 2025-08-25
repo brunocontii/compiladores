@@ -3,38 +3,55 @@
 #include <stdbool.h>
 #include "ast.h"
 
-// Devuelve el string del tipo
-const char* getTypeString(InfoType type) {
-    switch(type) {
-        case INT: return "INT";
-        case BOOL: return "BOOL";
-        case VOID: return "VOID";
-        case MAIN: return "MAIN";
-        case RETURN: return "RETURN";
-        case NUM: return "NUM";
-        case ID: return "ID";
-        case OP: return "OP";
-        case DEL: return "DEL";
-        case SENTENS: return "SENTENS";
-        case DECS: return "DECS";
-        case DEC: return "DEC";
+// Devuelve el string del enum Token
+const char* getTokenString(Token token) {
+    switch(token) {
+        case INT: return "T_INT";
+        case BOOL: return "T_BOOL";
+        case TOKEN_VOID: return "T_VOID";
+        case MAIN: return "T_MAIN";
+        case RETURN: return "T_RETURN";
+        case NUM: return "T_NUM";
+        case ID: return "T_ID";
+        case OP: return "T_OP";
+        case DEL: return "T_DEL";
+        case SENTENS: return "T_SENTENS";
+        case DECS: return "T_DECS";
+        case DEC: return "T_DEC";
         default: return "UNKNOWN";
     }
 }
 
-// Devuelve el string del valor del nodo según el tipo
+// Devuelve el string del enum Type
+const char* getTypeString(Type type) {
+    switch(type) {
+        case INTEGER: return "INTEGER";
+        case BOOLEAN: return "BOOLEAN";
+        case TYPE_VOID:    return "VOID";
+        default:      return "UNKNOWN";
+    }
+}
+
+// Devuelve el string del valor del nodo según el token
 void getNodeValueString(Node* node, char* buffer, size_t bufsize) {
-    switch(node->info_type) {
-        case INT:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
-            break;
+    if (!node) {
+        snprintf(buffer, bufsize, "?");
+        return;
+    }
+    switch(node->info.token) {
         case NUM:
             snprintf(buffer, bufsize, "%d", node->info.i_value);
             break;
         case BOOL:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info.b_value ? "true" : "false");
             break;
         case ID:
+            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            break;
+        case INT:
+            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            break;
+        case TOKEN_VOID:
             snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
             break;
         case MAIN:
@@ -58,9 +75,6 @@ void getNodeValueString(Node* node, char* buffer, size_t bufsize) {
         case DEL:
             snprintf(buffer, bufsize, "%c", node->info.del);
             break;
-        case VOID:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
-            break;
         default:
             snprintf(buffer, bufsize, "?");
             break;
@@ -75,8 +89,14 @@ void generateDotNodes(Node* node, FILE* file, int* nodeCount) {
     char valueStr[64];
     getNodeValueString(node, valueStr, sizeof(valueStr));
 
-    fprintf(file, "  node%d [label=\"%s\\n(%s)\", shape=box];\n",
-            currentId, valueStr, getTypeString(node->info_type));
+    // Etiqueta: valor\n(Token)\n[Type si aplica]
+    if (node->info.token == NUM || node->info.token == INT || node->info.token == BOOL || node->info.token == TYPE_VOID) {
+        fprintf(file, "  node%d [label=\"%s\\n(%s)\\n[%s]\", shape=box];\n",
+            currentId, valueStr, getTokenString(node->info.token), getTypeString(node->info.type));
+    } else {
+        fprintf(file, "  node%d [label=\"%s\\n(%s)\", shape=box];\n",
+            currentId, valueStr, getTokenString(node->info.token));
+    }
 
     if (node->left != NULL) {
         int leftId = *nodeCount;
