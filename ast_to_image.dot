@@ -1,0 +1,14 @@
+digraph AST {
+  rankdir=TB;
+  node [fontname="Arial"];
+  edge [fontname="Arial"];
+  node0 [label="*\n(OP)", shape=box];
+  node1 [label="6\n(NUM)", shape=box];
+  node0 -> node1 [label="L"];
+  node2 [label="+\n(OP)", shape=box];
+  node3 [label="20\n(NUM)", shape=box];
+  node2 -> node3 [label="L"];
+  node4 [label="45\n(NUM)", shape=box];
+  node2 -> node4 [label="R"];
+  node0 -> node2 [label="R"];
+}

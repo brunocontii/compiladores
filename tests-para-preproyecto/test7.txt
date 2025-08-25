@@ -1,0 +1,5 @@
+int main () {
+    int solo;
+    solo = 100;
+    return solo;
+}

@@ -1,0 +1,15 @@
+int main () {
+    int num1;
+    int num2;
+    int suma;
+    int resta;
+    int mult;
+    int div;
+    num1 = 15;
+    num2 = 3;
+    suma = num1 + num2;
+    resta = num1 - num2;
+    mult = num1 * num2;
+    div = num1 / num2;
+    return div;
+}

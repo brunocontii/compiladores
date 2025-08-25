@@ -1,0 +1,11 @@
+int main () {
+    int a;
+    int b;
+    int c;
+    int resultado;
+    a = 5;
+    b = 3;
+    c = 2;
+    resultado = a + b * c;
+    return resultado;
+}

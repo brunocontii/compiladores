@@ -1,0 +1,11 @@
+int main () {
+    int w;
+    int x;
+    int y;
+    int z;
+    w = 20;
+    x = 4;
+    y = 2;
+    z = w + x - y * x / y;
+    return z;
+}

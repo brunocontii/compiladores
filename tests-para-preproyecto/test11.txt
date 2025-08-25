@@ -1,0 +1,7 @@
+bool main () {
+    int entero;
+    bool booleano;
+    entero = 25;
+    booleano = 0;
+    return booleano;
+}
