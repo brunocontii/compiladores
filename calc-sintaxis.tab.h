@@ -49,7 +49,13 @@ extern int yydebug;
 
     #include "ast.h"
 
-#line 53 "calc-sintaxis.tab.h"
+    typedef struct {
+        char* name;
+        Token token;
+        Type type;
+    } InfoTipo;
+
+#line 59 "calc-sintaxis.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -85,13 +91,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 16 "calc-sintaxis.y"
+#line 22 "calc-sintaxis.y"
 
     int ival;
     char *sval;
     Node* node;
+    InfoTipo tipo_info;
 
-#line 95 "calc-sintaxis.tab.h"
+#line 102 "calc-sintaxis.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

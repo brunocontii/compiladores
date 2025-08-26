@@ -11,12 +11,19 @@ Node* root;
 
 %code requires {
     #include "ast.h"
+
+    typedef struct {
+        char* name;
+        Token token;
+        Type type;
+    } InfoTipo;
 }
 
 %union {
     int ival;
     char *sval;
     Node* node;
+    InfoTipo tipo_info;
 }
 
 %token TOKEN_INT TOKEN_BOOL TOKEN_VOID TOKEN_MAIN TOKEN_RETURN 
@@ -30,7 +37,7 @@ Node* root;
 %left TOKEN_OP_MULT TOKEN_OP_DIV
 
 %type <node> exp senten sentens dec decs prog
-%type <sval> tipo
+%type <tipo_info> tipo
 
 %%
 
@@ -38,26 +45,11 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
         {   
             printf("No hay errores \n"); 
             
-            Info tipo_info;
-            InfoType tipo_infotype;
+            Info tipo_info = { .name = strdup($1.name), .token = $1.token };            
+            Info main_info = { .name = strdup("main"), .token = MAIN };
+            Node* main_node = createTree(main_info, $6, $7);
             
-            tipo_info.name = $1;
-
-            if (strcmp($1, "int") == 0) {
-                tipo_infotype = INT;
-            } else if (strcmp($1, "bool") == 0) {
-                tipo_infotype = BOOL;
-            } else if (strcmp($1, "void") == 0) {
-                tipo_infotype = VOID;
-            } else {
-                tipo_info.name = "unknown";
-                tipo_infotype = VOID;
-            }
-            
-            Info main_info = {.name = "main"};
-            Node* main_node = createTree(main_info, MAIN, $6, $7);
-            
-            $$ = createTree(tipo_info, tipo_infotype, main_node, NULL);
+            $$ = createTree(tipo_info, main_node, NULL);
             root = $$;
                         
             if (root != NULL) {
@@ -75,15 +67,21 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
 
 tipo: TOKEN_INT
         {
-            $$ = strdup("int");
+            $$.name = strdup("int");
+            $$.token = INT;
+            $$.type = INTEGER;
         }
     | TOKEN_BOOL
         {
-            $$ = strdup("bool");
+            $$.name = strdup("bool");
+            $$.token = BOOL;
+            $$.type = BOOLEAN;
         }
     | TOKEN_VOID
         {
-            $$ = strdup("void");
+            $$.name = strdup("void");
+            $$.token = T_VOID;
+            $$.type = TYPE_VOID;
         }
     ;
 
@@ -93,34 +91,22 @@ decs: dec
         }
     | dec decs
         {
-            Info decs_info = {.name = "decs"};
-            $$ = createTree(decs_info, DECS, $1, $2);
+            Info decs_info = { .name = strdup("decs"), .token = DECS };
+            $$ = createTree(decs_info, $1, $2);
         }
     ;
 
 dec: tipo TOKEN_ID TOKEN_PYC
     {
-        Info dec_info = {.name = "dec"};
-        Info tipo_info;
-        InfoType tipo_infotype;
+        Info dec_info = { .name = strdup("dec"), .token = DEC };
 
-        tipo_info.name = $1;
-        
-        if (strcmp($1, "int") == 0) {
-            tipo_infotype = INT;
-        } else if (strcmp($1, "bool") == 0) {
-            tipo_infotype = BOOL;
-        } else if (strcmp($1, "void") == 0) {
-            tipo_infotype = VOID;
-        } else {
-            tipo_info.name = "unknown";
-            tipo_infotype = VOID;
-        }
-        
-        Node* tipo = createLeaf(tipo_info, tipo_infotype);
-        Info id_info = {.name = $2};
-        Node* id = createLeaf(id_info, ID);
-        $$ = createTree(dec_info, DEC, tipo, id);
+        Info tipo_info = { .name = $1.name, .token = $1.token };
+        Node* tipo = createLeaf(tipo_info);
+
+        Info id_info = { .name = $2, .token = ID, .type = $1.type };
+        Node* id = createLeaf(id_info);
+
+        $$ = createTree(dec_info, tipo, id);
     }
 ;
 
@@ -130,49 +116,50 @@ sentens: senten
         }
     | senten sentens
         {
-            Info sentens_info = {.name = "sentens"};
-            $$ = createTree(sentens_info, SENTENS, $1, $2);
+            Info sentens_info = { .name = strdup("sentens"), .token = SENTENS };
+            $$ = createTree(sentens_info, $1, $2);
         }
     ;
 
 senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
         {
-            Info id_info = {.name = $1};
-            Node* id = createLeaf(id_info, ID);
-            Info igual_info = {.op = '='};
-            $$ = createTree(igual_info, OP, id, $3);
+            Info id_info = { .name = $1, .token = ID };
+            Node* id = createLeaf(id_info);
+
+            Info igual_info = { .op = '=', .token = OP };
+            $$ = createTree(igual_info, id, $3);
         }
     | TOKEN_RETURN exp TOKEN_PYC
         {
-            Info ret_info = {.name = "return"};
-            $$ = createTree(ret_info, RETURN, $2, NULL);
+            Info ret_info = { .name = strdup("return"), RETURN };
+            $$ = createTree(ret_info, $2, NULL);
         }
     | TOKEN_RETURN TOKEN_PYC
         {
-            Info ret_info = {.name = "return"};
-            $$ = createLeaf(ret_info, RETURN);
+            Info ret_info = { .name = strdup("return"), .token = RETURN };
+            $$ = createLeaf(ret_info);
         }
     ;
 
 exp: exp TOKEN_OP_MAS exp
         {
-            Info op_info = {.op = '+'};
-            $$ = createTree(op_info, OP, $1, $3);
+            Info op_info = { .op = '+', .token = OP };
+            $$ = createTree(op_info, $1, $3);
         }
     | exp TOKEN_OP_MULT exp
         {
-            Info op_info = {.op = '*'};
-            $$ = createTree(op_info, OP, $1, $3);
+            Info op_info = { .op = '*', .token = OP };
+            $$ = createTree(op_info, $1, $3);
         }
     | exp TOKEN_OP_RES exp
         {
-            Info op_info = {.op = '-'};
-            $$ = createTree(op_info, OP, $1, $3);
+            Info op_info = { .op = '-', .token = OP };
+            $$ = createTree(op_info, $1, $3);
         }
     | exp TOKEN_OP_DIV exp
         {
-            Info op_info = {.op = '/'};
-            $$ = createTree(op_info, OP, $1, $3);
+            Info op_info = { .op = '/', .token = OP };
+            $$ = createTree(op_info, $1, $3);
         }
     | TOKEN_PAR_A exp TOKEN_PAR_C
         {
@@ -180,13 +167,13 @@ exp: exp TOKEN_OP_MAS exp
         }
     | TOKEN_NUM
         {
-            Info num_info = {.i_value = $1};
-            $$ = createLeaf(num_info, NUM);
+            Info num_info = { .i_value = $1, .token = NUM, .type = INTEGER };
+            $$ = createLeaf(num_info);
         }
     | TOKEN_ID
         {
-            Info id_info = {.name = $1};
-            $$ = createLeaf(id_info, ID);
+            Info id_info = { .name = $1, .token = ID };
+            $$ = createLeaf(id_info);
         }
     ;
 

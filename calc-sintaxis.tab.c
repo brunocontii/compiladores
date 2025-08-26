@@ -521,9 +521,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    37,    37,    76,    80,    84,    90,    94,   101,   127,
-     131,   138,   145,   150,   157,   162,   167,   172,   177,   181,
-     186
+       0,    44,    44,    68,    74,    80,    88,    92,    99,   113,
+     117,   124,   132,   137,   144,   149,   154,   159,   164,   168,
+     173
 };
 #endif
 
@@ -1108,30 +1108,15 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA_C  */
-#line 38 "calc-sintaxis.y"
+#line 45 "calc-sintaxis.y"
         {   
             printf("No hay errores \n"); 
             
-            Info tipo_info;
-            InfoType tipo_infotype;
+            Info tipo_info = { .name = strdup((yyvsp[-7].tipo_info).name), .token = (yyvsp[-7].tipo_info).token };            
+            Info main_info = { .name = strdup("main"), .token = MAIN };
+            Node* main_node = createTree(main_info, (yyvsp[-2].node), (yyvsp[-1].node));
             
-            tipo_info.name = (yyvsp[-7].sval);
-
-            if (strcmp((yyvsp[-7].sval), "int") == 0) {
-                tipo_infotype = INT;
-            } else if (strcmp((yyvsp[-7].sval), "bool") == 0) {
-                tipo_infotype = BOOL;
-            } else if (strcmp((yyvsp[-7].sval), "void") == 0) {
-                tipo_infotype = VOID;
-            } else {
-                tipo_info.name = "unknown";
-                tipo_infotype = VOID;
-            }
-            
-            Info main_info = {.name = "main"};
-            Node* main_node = createTree(main_info, MAIN, (yyvsp[-2].node), (yyvsp[-1].node));
-            
-            (yyval.node) = createTree(tipo_info, tipo_infotype, main_node, NULL);
+            (yyval.node) = createTree(tipo_info, main_node, NULL);
             root = (yyval.node);
                         
             if (root != NULL) {
@@ -1145,188 +1130,183 @@ yyreduce:
                 }
             }
         }
-#line 1149 "calc-sintaxis.tab.c"
+#line 1134 "calc-sintaxis.tab.c"
     break;
 
   case 3: /* tipo: TOKEN_INT  */
-#line 77 "calc-sintaxis.y"
+#line 69 "calc-sintaxis.y"
         {
-            (yyval.sval) = strdup("int");
+            (yyval.tipo_info).name = strdup("int");
+            (yyval.tipo_info).token = INT;
+            (yyval.tipo_info).type = INTEGER;
         }
-#line 1157 "calc-sintaxis.tab.c"
+#line 1144 "calc-sintaxis.tab.c"
     break;
 
   case 4: /* tipo: TOKEN_BOOL  */
-#line 81 "calc-sintaxis.y"
+#line 75 "calc-sintaxis.y"
         {
-            (yyval.sval) = strdup("bool");
+            (yyval.tipo_info).name = strdup("bool");
+            (yyval.tipo_info).token = BOOL;
+            (yyval.tipo_info).type = BOOLEAN;
         }
-#line 1165 "calc-sintaxis.tab.c"
+#line 1154 "calc-sintaxis.tab.c"
     break;
 
   case 5: /* tipo: TOKEN_VOID  */
-#line 85 "calc-sintaxis.y"
+#line 81 "calc-sintaxis.y"
         {
-            (yyval.sval) = strdup("void");
+            (yyval.tipo_info).name = strdup("void");
+            (yyval.tipo_info).token = T_VOID;
+            (yyval.tipo_info).type = TYPE_VOID;
         }
-#line 1173 "calc-sintaxis.tab.c"
+#line 1164 "calc-sintaxis.tab.c"
     break;
 
   case 6: /* decs: dec  */
-#line 91 "calc-sintaxis.y"
+#line 89 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
+        }
+#line 1172 "calc-sintaxis.tab.c"
+    break;
+
+  case 7: /* decs: dec decs  */
+#line 93 "calc-sintaxis.y"
+        {
+            Info decs_info = { .name = strdup("decs"), .token = DECS };
+            (yyval.node) = createTree(decs_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
 #line 1181 "calc-sintaxis.tab.c"
     break;
 
-  case 7: /* decs: dec decs  */
-#line 95 "calc-sintaxis.y"
-        {
-            Info decs_info = {.name = "decs"};
-            (yyval.node) = createTree(decs_info, DECS, (yyvsp[-1].node), (yyvsp[0].node));
-        }
-#line 1190 "calc-sintaxis.tab.c"
-    break;
-
   case 8: /* dec: tipo TOKEN_ID TOKEN_PYC  */
-#line 102 "calc-sintaxis.y"
+#line 100 "calc-sintaxis.y"
     {
-        Info dec_info = {.name = "dec"};
-        Info tipo_info;
-        InfoType tipo_infotype;
+        Info dec_info = { .name = strdup("dec"), .token = DEC };
 
-        tipo_info.name = (yyvsp[-2].sval);
-        
-        if (strcmp((yyvsp[-2].sval), "int") == 0) {
-            tipo_infotype = INT;
-        } else if (strcmp((yyvsp[-2].sval), "bool") == 0) {
-            tipo_infotype = BOOL;
-        } else if (strcmp((yyvsp[-2].sval), "void") == 0) {
-            tipo_infotype = VOID;
-        } else {
-            tipo_info.name = "unknown";
-            tipo_infotype = VOID;
-        }
-        
-        Node* tipo = createLeaf(tipo_info, tipo_infotype);
-        Info id_info = {.name = (yyvsp[-1].sval)};
-        Node* id = createLeaf(id_info, ID);
-        (yyval.node) = createTree(dec_info, DEC, tipo, id);
+        Info tipo_info = { .name = (yyvsp[-2].tipo_info).name, .token = (yyvsp[-2].tipo_info).token };
+        Node* tipo = createLeaf(tipo_info);
+
+        Info id_info = { .name = (yyvsp[-1].sval), .token = ID, .type = (yyvsp[-2].tipo_info).type };
+        Node* id = createLeaf(id_info);
+
+        (yyval.node) = createTree(dec_info, tipo, id);
     }
-#line 1218 "calc-sintaxis.tab.c"
+#line 1197 "calc-sintaxis.tab.c"
     break;
 
   case 9: /* sentens: senten  */
-#line 128 "calc-sintaxis.y"
+#line 114 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
+        }
+#line 1205 "calc-sintaxis.tab.c"
+    break;
+
+  case 10: /* sentens: senten sentens  */
+#line 118 "calc-sintaxis.y"
+        {
+            Info sentens_info = { .name = strdup("sentens"), .token = SENTENS };
+            (yyval.node) = createTree(sentens_info, (yyvsp[-1].node), (yyvsp[0].node));
+        }
+#line 1214 "calc-sintaxis.tab.c"
+    break;
+
+  case 11: /* senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC  */
+#line 125 "calc-sintaxis.y"
+        {
+            Info id_info = { .name = (yyvsp[-3].sval), .token = ID };
+            Node* id = createLeaf(id_info);
+
+            Info igual_info = { .op = '=', .token = OP };
+            (yyval.node) = createTree(igual_info, id, (yyvsp[-1].node));
         }
 #line 1226 "calc-sintaxis.tab.c"
     break;
 
-  case 10: /* sentens: senten sentens  */
-#line 132 "calc-sintaxis.y"
+  case 12: /* senten: TOKEN_RETURN exp TOKEN_PYC  */
+#line 133 "calc-sintaxis.y"
         {
-            Info sentens_info = {.name = "sentens"};
-            (yyval.node) = createTree(sentens_info, SENTENS, (yyvsp[-1].node), (yyvsp[0].node));
+            Info ret_info = { .name = strdup("return"), RETURN };
+            (yyval.node) = createTree(ret_info, (yyvsp[-1].node), NULL);
         }
 #line 1235 "calc-sintaxis.tab.c"
     break;
 
-  case 11: /* senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC  */
-#line 139 "calc-sintaxis.y"
-        {
-            Info id_info = {.name = (yyvsp[-3].sval)};
-            Node* id = createLeaf(id_info, ID);
-            Info igual_info = {.op = '='};
-            (yyval.node) = createTree(igual_info, OP, id, (yyvsp[-1].node));
-        }
-#line 1246 "calc-sintaxis.tab.c"
-    break;
-
-  case 12: /* senten: TOKEN_RETURN exp TOKEN_PYC  */
-#line 146 "calc-sintaxis.y"
-        {
-            Info ret_info = {.name = "return"};
-            (yyval.node) = createTree(ret_info, RETURN, (yyvsp[-1].node), NULL);
-        }
-#line 1255 "calc-sintaxis.tab.c"
-    break;
-
   case 13: /* senten: TOKEN_RETURN TOKEN_PYC  */
-#line 151 "calc-sintaxis.y"
+#line 138 "calc-sintaxis.y"
         {
-            Info ret_info = {.name = "return"};
-            (yyval.node) = createLeaf(ret_info, RETURN);
+            Info ret_info = { .name = strdup("return"), .token = RETURN };
+            (yyval.node) = createLeaf(ret_info);
         }
-#line 1264 "calc-sintaxis.tab.c"
+#line 1244 "calc-sintaxis.tab.c"
     break;
 
   case 14: /* exp: exp TOKEN_OP_MAS exp  */
-#line 158 "calc-sintaxis.y"
+#line 145 "calc-sintaxis.y"
         {
-            Info op_info = {.op = '+'};
-            (yyval.node) = createTree(op_info, OP, (yyvsp[-2].node), (yyvsp[0].node));
+            Info op_info = { .op = '+', .token = OP };
+            (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1273 "calc-sintaxis.tab.c"
+#line 1253 "calc-sintaxis.tab.c"
     break;
 
   case 15: /* exp: exp TOKEN_OP_MULT exp  */
-#line 163 "calc-sintaxis.y"
+#line 150 "calc-sintaxis.y"
         {
-            Info op_info = {.op = '*'};
-            (yyval.node) = createTree(op_info, OP, (yyvsp[-2].node), (yyvsp[0].node));
+            Info op_info = { .op = '*', .token = OP };
+            (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1282 "calc-sintaxis.tab.c"
+#line 1262 "calc-sintaxis.tab.c"
     break;
 
   case 16: /* exp: exp TOKEN_OP_RES exp  */
-#line 168 "calc-sintaxis.y"
+#line 155 "calc-sintaxis.y"
         {
-            Info op_info = {.op = '-'};
-            (yyval.node) = createTree(op_info, OP, (yyvsp[-2].node), (yyvsp[0].node));
+            Info op_info = { .op = '-', .token = OP };
+            (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1291 "calc-sintaxis.tab.c"
+#line 1271 "calc-sintaxis.tab.c"
     break;
 
   case 17: /* exp: exp TOKEN_OP_DIV exp  */
-#line 173 "calc-sintaxis.y"
+#line 160 "calc-sintaxis.y"
         {
-            Info op_info = {.op = '/'};
-            (yyval.node) = createTree(op_info, OP, (yyvsp[-2].node), (yyvsp[0].node));
+            Info op_info = { .op = '/', .token = OP };
+            (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1300 "calc-sintaxis.tab.c"
+#line 1280 "calc-sintaxis.tab.c"
     break;
 
   case 18: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
-#line 178 "calc-sintaxis.y"
+#line 165 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[-1].node);
         }
-#line 1308 "calc-sintaxis.tab.c"
+#line 1288 "calc-sintaxis.tab.c"
     break;
 
   case 19: /* exp: TOKEN_NUM  */
-#line 182 "calc-sintaxis.y"
+#line 169 "calc-sintaxis.y"
         {
-            Info num_info = {.i_value = (yyvsp[0].ival)};
-            (yyval.node) = createLeaf(num_info, NUM);
+            Info num_info = { .i_value = (yyvsp[0].ival), .token = NUM, .type = INTEGER };
+            (yyval.node) = createLeaf(num_info);
         }
-#line 1317 "calc-sintaxis.tab.c"
+#line 1297 "calc-sintaxis.tab.c"
     break;
 
   case 20: /* exp: TOKEN_ID  */
-#line 187 "calc-sintaxis.y"
+#line 174 "calc-sintaxis.y"
         {
-            Info id_info = {.name = (yyvsp[0].sval)};
-            (yyval.node) = createLeaf(id_info, ID);
+            Info id_info = { .name = (yyvsp[0].sval), .token = ID };
+            (yyval.node) = createLeaf(id_info);
         }
-#line 1326 "calc-sintaxis.tab.c"
+#line 1306 "calc-sintaxis.tab.c"
     break;
 
 
-#line 1330 "calc-sintaxis.tab.c"
+#line 1310 "calc-sintaxis.tab.c"
 
       default: break;
     }
@@ -1519,7 +1499,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 193 "calc-sintaxis.y"
+#line 180 "calc-sintaxis.y"
 
 
 

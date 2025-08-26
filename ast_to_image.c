@@ -8,7 +8,7 @@ const char* getTokenString(Token token) {
     switch(token) {
         case INT: return "T_INT";
         case BOOL: return "T_BOOL";
-        case TOKEN_VOID: return "T_VOID";
+        case T_VOID: return "T_VOID";
         case MAIN: return "T_MAIN";
         case RETURN: return "T_RETURN";
         case NUM: return "T_NUM";
@@ -51,7 +51,7 @@ void getNodeValueString(Node* node, char* buffer, size_t bufsize) {
         case INT:
             snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
             break;
-        case TOKEN_VOID:
+        case T_VOID:
             snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
             break;
         case MAIN:
@@ -90,7 +90,7 @@ void generateDotNodes(Node* node, FILE* file, int* nodeCount) {
     getNodeValueString(node, valueStr, sizeof(valueStr));
 
     // Etiqueta: valor\n(Token)\n[Type si aplica]
-    if (node->info.token == NUM || node->info.token == INT || node->info.token == BOOL || node->info.token == TYPE_VOID) {
+    if (node->info.token == ID || node->info.token == NUM) {
         fprintf(file, "  node%d [label=\"%s\\n(%s)\\n[%s]\", shape=box];\n",
             currentId, valueStr, getTokenString(node->info.token), getTypeString(node->info.type));
     } else {

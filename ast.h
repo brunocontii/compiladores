@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef enum {
-    INT,BOOL,TOKEN_VOID,MAIN,RETURN,NUM,ID,OP,DEL,SENTENS,DECS,DEC
+    INT,BOOL,T_VOID,MAIN,RETURN,NUM,ID,OP,DEL,SENTENS,DECS,DEC
 } Token;
 
 typedef enum {
