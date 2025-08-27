@@ -73,7 +73,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "ast.h"
+#include "ast/ast.h"
 
 Node* root;
 

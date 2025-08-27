@@ -47,7 +47,7 @@ extern int yydebug;
 /* "%code requires" blocks.  */
 #line 12 "calc-sintaxis.y"
 
-    #include "ast.h"
+    #include "ast/ast.h"
 
     typedef struct {
         char* name;
