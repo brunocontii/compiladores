@@ -5,3 +5,4 @@ prog
 prog_ast.dot
 prog_ast.png
 table_of_symbols/table_symbols
+.vscode/
