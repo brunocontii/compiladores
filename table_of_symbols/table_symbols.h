@@ -22,13 +22,13 @@ typedef struct {
 } Info;
 
 typedef struct Symbol {
-    Info info;
+    Info *info;
     struct Symbol* next;
 } Symbol;
 
 
-Symbol* createSymbol(Info info); // crea un simbolo de la tabla
-Symbol* insertByName(Symbol* ts, Info info); //inserta un elemento en la tabla (no puede haber duplicados)
+Symbol* createSymbol(Info *info); // crea un simbolo de la tabla
+Symbol* insertByName(Symbol* ts, Info *info); //inserta un elemento en la tabla (no puede haber duplicados)
 Info* searchByName(Symbol* ts, char* name); // busca un elemento en la tabla
                                             // si lo encuentra devuelve un puntero a info, si no NULL
 

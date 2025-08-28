@@ -17,7 +17,7 @@ void printInfo(const Info* info) {
 void printTableSymbols(const Symbol* ts) {
     printf("Tabla de simbolos:\n");
     while (ts != NULL) {
-        printInfo(&ts->info);
+        printInfo(ts->info);
         ts = ts->next;
     }
 }

@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include "ast.h"
 
-Node* createTree(Info info, Node* left, Node* right) {
+Node* createTree(Info *info, Node* left, Node* right) {
     Node* newNode = (Node*)malloc(sizeof(Node));
     if (newNode == NULL) {
         return NULL;
@@ -13,6 +13,13 @@ Node* createTree(Info info, Node* left, Node* right) {
     return newNode;
 }
 
-Node* createLeaf(Info info) {
-    return createTree(info, NULL, NULL);
+Node* createLeaf(Info *info) {
+    Node* newNode = (Node*)malloc(sizeof(Node));
+    if (newNode == NULL) {
+        return NULL;
+    }
+    newNode->info = info;
+    newNode->left = NULL;
+    newNode->right = NULL;
+    return newNode;
 }

@@ -38,42 +38,42 @@ void getNodeValueString(Node* node, char* buffer, size_t bufsize) {
         snprintf(buffer, bufsize, "?");
         return;
     }
-    switch(node->info.token) {
+    switch(node->info->token) {
         case NUM:
-            snprintf(buffer, bufsize, "%d", node->info.i_value);
+            snprintf(buffer, bufsize, "%d", node->info->i_value);
             break;
         case BOOL:
-            snprintf(buffer, bufsize, "%s", node->info.b_value ? "true" : "false");
+            snprintf(buffer, bufsize, "%s", node->info->b_value ? "true" : "false");
             break;
         case ID:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case INT:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case T_VOID:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case MAIN:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case RETURN:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case SENTENS:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case DECS:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case DEC:
-            snprintf(buffer, bufsize, "%s", node->info.name ? node->info.name : "");
+            snprintf(buffer, bufsize, "%s", node->info->name ? node->info->name : "");
             break;
         case OP:
-            snprintf(buffer, bufsize, "%c", node->info.op);
+            snprintf(buffer, bufsize, "%s", node->info->op);
             break;
         case DEL:
-            snprintf(buffer, bufsize, "%c", node->info.del);
+            snprintf(buffer, bufsize, "%c", node->info->del);
             break;
         default:
             snprintf(buffer, bufsize, "?");
@@ -90,12 +90,12 @@ void generateDotNodes(Node* node, FILE* file, int* nodeCount) {
     getNodeValueString(node, valueStr, sizeof(valueStr));
 
     // Etiqueta: valor\n(Token)\n[Type si aplica]
-    if (node->info.token == ID || node->info.token == NUM) {
+    if (node->info->token == ID || node->info->token == NUM) {
         fprintf(file, "  node%d [label=\"%s\\n(%s)\\n[%s]\", shape=box];\n",
-            currentId, valueStr, getTokenString(node->info.token), getTypeString(node->info.type));
+            currentId, valueStr, getTokenString(node->info->token), getTypeString(node->info->type));
     } else {
         fprintf(file, "  node%d [label=\"%s\\n(%s)\", shape=box];\n",
-            currentId, valueStr, getTokenString(node->info.token));
+            currentId, valueStr, getTokenString(node->info->token));
     }
 
     if (node->left != NULL) {
