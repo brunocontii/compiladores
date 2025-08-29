@@ -4,4 +4,4 @@ flex calc-lexico.l
 bison -d calc-sintaxis.y
 # bison -v calc-sintaxis.y #para que de un output con los conflictos
 # gcc lex.yy.c calc-sintaxis.tab.c
-gcc -o prog lex.yy.c calc-sintaxis.tab.c ast/ast.c ast/ast_to_image.c -lfl # ver porque anda con este comando y no con el de arriba 
+gcc -o prog lex.yy.c calc-sintaxis.tab.c ast/ast.c ast/ast_to_image.c table_of_symbols/table_symbols.c table_of_symbols/symbol_printer.c -lfl # ver porque anda con este comando y no con el de arriba

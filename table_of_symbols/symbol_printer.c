@@ -5,11 +5,11 @@ void printInfo(const Info* info) {
     if (!info) return;
     printf("{ ");
     if (info->name) printf("name: \"%s\", ", info->name);
-    printf("token: %s, ", getTokenString(info->token));
-    printf("type: %s, ", getTypeString(info->type));
+    printf("token: %s, ", getTokenStringTable(info->token));
+    printf("type: %s, ", getTypeStringTable(info->type));
     if (info->token == NUM) printf("i_value: %d, ", info->i_value);
     if (info->token == BOOL) printf("b_value: %s, ", info->b_value ? "true" : "false");
-    if (info->token == OP) printf("op: '%c', ", info->op);
+    if (info->token == OP) printf("op: '%s', ", info->op);
     if (info->token == DEL) printf("del: '%c', ", info->del);
     printf("}\n");
 }
@@ -22,7 +22,7 @@ void printTableSymbols(const Symbol* ts) {
     }
 }
 
-const char* getTokenString(Token token) {
+const char* getTokenStringTable(Token token) {
     switch(token) {
         case INT: return "T_INT";
         case BOOL: return "T_BOOL";
@@ -40,7 +40,7 @@ const char* getTokenString(Token token) {
     }
 }
 
-const char* getTypeString(Type type) {
+const char* getTypeStringTable(Type type) {
     switch(type) {
         case INTEGER: return "INTEGER";
         case BOOLEAN: return "BOOLEAN";

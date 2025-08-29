@@ -5,7 +5,7 @@
 
 void printInfo(const Info* info);
 void printTableSymbols(const Symbol* ts);
-const char* getTokenString(Token token);
-const char* getTypeString(Type type);
+const char* getTokenStringTable(Token token);
+const char* getTypeStringTable(Type type);
 
 #endif

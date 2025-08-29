@@ -4,13 +4,16 @@
 #include <stdio.h>
 #include <string.h>
 #include "ast/ast.h"
+#include "table_of_symbols/table_symbols.h"
 
 Node* root;
+Symbol* head = NULL;
 
 %}
 
 %code requires {
     #include "ast/ast.h"
+    #include "table_of_symbols/table_symbols.h"
 
     typedef struct {
         char* name;
@@ -67,6 +70,8 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
                     printf("Error al generar la imagen.\n");
                 }
             }
+
+            printTableSymbols(head);
         }
     ;
 
@@ -120,6 +125,8 @@ dec: tipo TOKEN_ID TOKEN_PYC
         id_info->type = $1.type;
         Node* id = createLeaf(id_info);
 
+        head = insertByName(head, id_info);
+
         $$ = createTree(dec_info, tipo, id);
     }
 ;
@@ -147,7 +154,18 @@ senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
             Info *igual_info = malloc(sizeof(Info));
             igual_info->op = strdup("=");
             igual_info->token = OP;
-            $$ = createTree(igual_info, id, $3);
+
+            Info *id_buscado = searchByName(head, id_info->name);
+            if (id_buscado == NULL) {
+                // variable no declarada ver que hacer
+                $$ = NULL;
+            }else if (id_buscado->type != $3->info->type) {
+                // error de tipos ver que hacer
+                $$ = NULL;
+            } else {
+                // esta todo bien, creo el arbol
+                $$ = createTree(igual_info, id, $3);
+            }
         }
     | TOKEN_RETURN exp TOKEN_PYC
         {

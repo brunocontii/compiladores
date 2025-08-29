@@ -53,48 +53,48 @@ Info* searchByName(Symbol* ts, char* name) {
     return NULL;
 }
 
-int main() {
-    // gcc -o table_symbols table_symbols.c symbol_printer.c
-    Symbol* tabla = NULL;
+// int main() {
+//     // gcc -o table_symbols table_symbols.c symbol_printer.c
+//     Symbol* tabla = NULL;
 
-    Info* info1 = (Info*)malloc(sizeof(Info));
-    info1->name = strdup("x");
-    info1->token = ID;
-    info1->type = INTEGER;
-    info1->i_value = 10;
+//     Info* info1 = (Info*)malloc(sizeof(Info));
+//     info1->name = strdup("x");
+//     info1->token = ID;
+//     info1->type = INTEGER;
+//     info1->i_value = 10;
 
-    Info* info2 = (Info*)malloc(sizeof(Info));
-    info2->name = strdup("y");
-    info2->token = ID;
-    info2->type = BOOLEAN;
-    info2->b_value = 1;
+//     Info* info2 = (Info*)malloc(sizeof(Info));
+//     info2->name = strdup("y");
+//     info2->token = ID;
+//     info2->type = BOOLEAN;
+//     info2->b_value = 1;
 
-    Info* info3 = (Info*)malloc(sizeof(Info));
-    info3->name = strdup("z");
-    info3->token = ID;
-    info3->type = TYPE_VOID;
-    Info* info4 = (Info*)malloc(sizeof(Info));
-    info4->name = strdup("z");
-    info4->token = ID;
-    info4->type = TYPE_VOID;
+//     Info* info3 = (Info*)malloc(sizeof(Info));
+//     info3->name = strdup("z");
+//     info3->token = ID;
+//     info3->type = TYPE_VOID;
+//     Info* info4 = (Info*)malloc(sizeof(Info));
+//     info4->name = strdup("z");
+//     info4->token = ID;
+//     info4->type = TYPE_VOID;
 
-    tabla = insertByName(tabla, info1);
-    tabla = insertByName(tabla, info2);
-    tabla = insertByName(tabla, info3);
-    tabla = insertByName(tabla, info4);
+//     tabla = insertByName(tabla, info1);
+//     tabla = insertByName(tabla, info2);
+//     tabla = insertByName(tabla, info3);
+//     tabla = insertByName(tabla, info4);
 
-    Info* buscado = searchByName(tabla, "y");
-    if (buscado) {
-        printf("Símbolo encontrado:\n");
-        printInfo(buscado);
-    }
+//     Info* buscado = searchByName(tabla, "y");
+//     if (buscado) {
+//         printf("Símbolo encontrado:\n");
+//         printInfo(buscado);
+//     }
 
-    Info* buscado2 = searchByName(tabla, "za");
-    if (buscado2) {
-        printf("Símbolo encontrado:\n");
-        printInfo(buscado2);
-    }
-    printTableSymbols(tabla);
+//     Info* buscado2 = searchByName(tabla, "za");
+//     if (buscado2) {
+//         printf("Símbolo encontrado:\n");
+//         printInfo(buscado2);
+//     }
+//     printTableSymbols(tabla);
 
-    return 0;
-}
+//     return 0;
+// }
