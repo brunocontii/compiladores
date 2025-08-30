@@ -188,6 +188,11 @@ senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
 
 exp: exp TOKEN_OP_MAS exp
         {
+            if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
+                printf("Error: operacion suma requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("+");
             op_info->token = OP;
@@ -195,6 +200,11 @@ exp: exp TOKEN_OP_MAS exp
         }
     | exp TOKEN_OP_MULT exp
         {
+            if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
+                printf("Error: operacion multiplicacion requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("*");
             op_info->token = OP;
@@ -202,6 +212,11 @@ exp: exp TOKEN_OP_MAS exp
         }
     | exp TOKEN_OP_RES exp
         {
+            if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
+                printf("Error: operacion resta requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("-");
             op_info->token = OP;
@@ -209,6 +224,11 @@ exp: exp TOKEN_OP_MAS exp
         }
     | exp TOKEN_OP_DIV exp
         {
+            if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
+                printf("Error: operacion division requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("/");
             op_info->token = OP;

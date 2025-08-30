@@ -525,8 +525,8 @@ static const yytype_int8 yytranslate[] =
 static const yytype_uint8 yyrline[] =
 {
        0,    48,    48,    79,    85,    91,    99,   103,   112,   141,
-     145,   154,   173,   180,   189,   196,   203,   210,   217,   221,
-     229
+     145,   154,   173,   180,   189,   201,   213,   225,   237,   241,
+     249
 };
 #endif
 
@@ -1290,57 +1290,77 @@ yyreduce:
   case 14: /* exp: exp TOKEN_OP_MAS exp  */
 #line 190 "calc-sintaxis.y"
         {
+            if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
+                printf("Error: operacion suma requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("+");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1299 "calc-sintaxis.tab.c"
+#line 1304 "calc-sintaxis.tab.c"
     break;
 
   case 15: /* exp: exp TOKEN_OP_MULT exp  */
-#line 197 "calc-sintaxis.y"
+#line 202 "calc-sintaxis.y"
         {
+            if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
+                printf("Error: operacion multiplicacion requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("*");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1310 "calc-sintaxis.tab.c"
+#line 1320 "calc-sintaxis.tab.c"
     break;
 
   case 16: /* exp: exp TOKEN_OP_RES exp  */
-#line 204 "calc-sintaxis.y"
+#line 214 "calc-sintaxis.y"
         {
+            if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
+                printf("Error: operacion resta requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("-");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1321 "calc-sintaxis.tab.c"
+#line 1336 "calc-sintaxis.tab.c"
     break;
 
   case 17: /* exp: exp TOKEN_OP_DIV exp  */
-#line 211 "calc-sintaxis.y"
+#line 226 "calc-sintaxis.y"
         {
+            if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
+                printf("Error: operacion division requiere operandos enteros\n");
+                YYERROR;
+            }
+
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("/");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1332 "calc-sintaxis.tab.c"
+#line 1352 "calc-sintaxis.tab.c"
     break;
 
   case 18: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
-#line 218 "calc-sintaxis.y"
+#line 238 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[-1].node);
         }
-#line 1340 "calc-sintaxis.tab.c"
+#line 1360 "calc-sintaxis.tab.c"
     break;
 
   case 19: /* exp: TOKEN_NUM  */
-#line 222 "calc-sintaxis.y"
+#line 242 "calc-sintaxis.y"
         {
             Info *num_info = malloc(sizeof(Info));
             num_info->i_value = (yyvsp[0].ival);
@@ -1348,11 +1368,11 @@ yyreduce:
             num_info->type = INTEGER;
             (yyval.node) = createLeaf(num_info);
         }
-#line 1352 "calc-sintaxis.tab.c"
+#line 1372 "calc-sintaxis.tab.c"
     break;
 
   case 20: /* exp: TOKEN_ID  */
-#line 230 "calc-sintaxis.y"
+#line 250 "calc-sintaxis.y"
         {
             Info *id_buscado = searchByName(head, (yyvsp[0].sval));
             if (id_buscado == NULL) {
@@ -1362,11 +1382,11 @@ yyreduce:
                 (yyval.node) = createLeaf(id_buscado);
             }
         }
-#line 1366 "calc-sintaxis.tab.c"
+#line 1386 "calc-sintaxis.tab.c"
     break;
 
 
-#line 1370 "calc-sintaxis.tab.c"
+#line 1390 "calc-sintaxis.tab.c"
 
       default: break;
     }
@@ -1559,7 +1579,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 241 "calc-sintaxis.y"
+#line 261 "calc-sintaxis.y"
 
 
 
