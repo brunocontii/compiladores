@@ -75,12 +75,13 @@
 #include <string.h>
 #include "ast/ast.h"
 #include "table_of_symbols/table_symbols.h"
+#include "table_of_symbols/symbol_to_image.h"
 
 Node* root;
 Symbol* head = NULL;
 
 
-#line 84 "calc-sintaxis.tab.c"
+#line 85 "calc-sintaxis.tab.c"
 
 # ifndef YY_CAST
 #  ifdef __cplusplus
@@ -523,9 +524,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    47,    47,    78,    84,    90,    98,   102,   111,   134,
-     138,   147,   170,   177,   186,   193,   200,   207,   214,   218,
-     226
+       0,    48,    48,    79,    85,    91,    99,   103,   112,   135,
+     139,   148,   171,   178,   187,   194,   201,   208,   215,   219,
+     227
 };
 #endif
 
@@ -1110,7 +1111,7 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA_C  */
-#line 48 "calc-sintaxis.y"
+#line 49 "calc-sintaxis.y"
         {   
             printf("No hay errores \n"); 
             
@@ -1137,62 +1138,62 @@ yyreduce:
                 }
             }
 
-            printTableSymbols(head);
+            generateAndOpenSymbolTable(head, "symbol_table");
         }
-#line 1143 "calc-sintaxis.tab.c"
+#line 1144 "calc-sintaxis.tab.c"
     break;
 
   case 3: /* tipo: TOKEN_INT  */
-#line 79 "calc-sintaxis.y"
+#line 80 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("int");
             (yyval.tipo_info).token = INT;
             (yyval.tipo_info).type = INTEGER;
         }
-#line 1153 "calc-sintaxis.tab.c"
+#line 1154 "calc-sintaxis.tab.c"
     break;
 
   case 4: /* tipo: TOKEN_BOOL  */
-#line 85 "calc-sintaxis.y"
+#line 86 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("bool");
             (yyval.tipo_info).token = BOOL;
             (yyval.tipo_info).type = BOOLEAN;
         }
-#line 1163 "calc-sintaxis.tab.c"
+#line 1164 "calc-sintaxis.tab.c"
     break;
 
   case 5: /* tipo: TOKEN_VOID  */
-#line 91 "calc-sintaxis.y"
+#line 92 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("void");
             (yyval.tipo_info).token = T_VOID;
             (yyval.tipo_info).type = TYPE_VOID;
         }
-#line 1173 "calc-sintaxis.tab.c"
+#line 1174 "calc-sintaxis.tab.c"
     break;
 
   case 6: /* decs: dec  */
-#line 99 "calc-sintaxis.y"
+#line 100 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1181 "calc-sintaxis.tab.c"
+#line 1182 "calc-sintaxis.tab.c"
     break;
 
   case 7: /* decs: dec decs  */
-#line 103 "calc-sintaxis.y"
+#line 104 "calc-sintaxis.y"
         {
             Info *decs_info = malloc(sizeof(Info));
             decs_info->name = strdup("decs");
             decs_info->token = DECS;
             (yyval.node) = createTree(decs_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1192 "calc-sintaxis.tab.c"
+#line 1193 "calc-sintaxis.tab.c"
     break;
 
   case 8: /* dec: tipo TOKEN_ID TOKEN_PYC  */
-#line 112 "calc-sintaxis.y"
+#line 113 "calc-sintaxis.y"
     {
         Info *dec_info = malloc(sizeof(Info));
         dec_info->name = strdup("dec");
@@ -1213,30 +1214,30 @@ yyreduce:
 
         (yyval.node) = createTree(dec_info, tipo, id);
     }
-#line 1217 "calc-sintaxis.tab.c"
+#line 1218 "calc-sintaxis.tab.c"
     break;
 
   case 9: /* sentens: senten  */
-#line 135 "calc-sintaxis.y"
+#line 136 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1225 "calc-sintaxis.tab.c"
+#line 1226 "calc-sintaxis.tab.c"
     break;
 
   case 10: /* sentens: senten sentens  */
-#line 139 "calc-sintaxis.y"
+#line 140 "calc-sintaxis.y"
         {
             Info *sentens_info = malloc(sizeof(Info));
             sentens_info->name = strdup("sentest");
             sentens_info->token = SENTENS;
             (yyval.node) = createTree(sentens_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1236 "calc-sintaxis.tab.c"
+#line 1237 "calc-sintaxis.tab.c"
     break;
 
   case 11: /* senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC  */
-#line 148 "calc-sintaxis.y"
+#line 149 "calc-sintaxis.y"
         {
             Info *id_info = malloc(sizeof(Info));
             id_info->name = strdup((yyvsp[-3].sval));
@@ -1259,85 +1260,85 @@ yyreduce:
                 (yyval.node) = createTree(igual_info, id, (yyvsp[-1].node));
             }
         }
-#line 1263 "calc-sintaxis.tab.c"
+#line 1264 "calc-sintaxis.tab.c"
     break;
 
   case 12: /* senten: TOKEN_RETURN exp TOKEN_PYC  */
-#line 171 "calc-sintaxis.y"
+#line 172 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createTree(ret_info, (yyvsp[-1].node), NULL);
         }
-#line 1274 "calc-sintaxis.tab.c"
+#line 1275 "calc-sintaxis.tab.c"
     break;
 
   case 13: /* senten: TOKEN_RETURN TOKEN_PYC  */
-#line 178 "calc-sintaxis.y"
+#line 179 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createLeaf(ret_info);
         }
-#line 1285 "calc-sintaxis.tab.c"
+#line 1286 "calc-sintaxis.tab.c"
     break;
 
   case 14: /* exp: exp TOKEN_OP_MAS exp  */
-#line 187 "calc-sintaxis.y"
+#line 188 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("+");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1296 "calc-sintaxis.tab.c"
+#line 1297 "calc-sintaxis.tab.c"
     break;
 
   case 15: /* exp: exp TOKEN_OP_MULT exp  */
-#line 194 "calc-sintaxis.y"
+#line 195 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("*");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1307 "calc-sintaxis.tab.c"
+#line 1308 "calc-sintaxis.tab.c"
     break;
 
   case 16: /* exp: exp TOKEN_OP_RES exp  */
-#line 201 "calc-sintaxis.y"
+#line 202 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("-");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1318 "calc-sintaxis.tab.c"
+#line 1319 "calc-sintaxis.tab.c"
     break;
 
   case 17: /* exp: exp TOKEN_OP_DIV exp  */
-#line 208 "calc-sintaxis.y"
+#line 209 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("/");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1329 "calc-sintaxis.tab.c"
+#line 1330 "calc-sintaxis.tab.c"
     break;
 
   case 18: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
-#line 215 "calc-sintaxis.y"
+#line 216 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[-1].node);
         }
-#line 1337 "calc-sintaxis.tab.c"
+#line 1338 "calc-sintaxis.tab.c"
     break;
 
   case 19: /* exp: TOKEN_NUM  */
-#line 219 "calc-sintaxis.y"
+#line 220 "calc-sintaxis.y"
         {
             Info *num_info = malloc(sizeof(Info));
             num_info->i_value = (yyvsp[0].ival);
@@ -1345,22 +1346,22 @@ yyreduce:
             num_info->type = INTEGER;
             (yyval.node) = createLeaf(num_info);
         }
-#line 1349 "calc-sintaxis.tab.c"
+#line 1350 "calc-sintaxis.tab.c"
     break;
 
   case 20: /* exp: TOKEN_ID  */
-#line 227 "calc-sintaxis.y"
+#line 228 "calc-sintaxis.y"
         {
             Info *id_info = malloc(sizeof(Info));
             id_info->name = strdup((yyvsp[0].sval));
             id_info->token = ID;
             (yyval.node) = createLeaf(id_info);
         }
-#line 1360 "calc-sintaxis.tab.c"
+#line 1361 "calc-sintaxis.tab.c"
     break;
 
 
-#line 1364 "calc-sintaxis.tab.c"
+#line 1365 "calc-sintaxis.tab.c"
 
       default: break;
     }
@@ -1553,7 +1554,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 235 "calc-sintaxis.y"
+#line 236 "calc-sintaxis.y"
 
 
 

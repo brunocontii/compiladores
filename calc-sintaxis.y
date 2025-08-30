@@ -5,6 +5,7 @@
 #include <string.h>
 #include "ast/ast.h"
 #include "table_of_symbols/table_symbols.h"
+#include "table_of_symbols/symbol_to_image.h"
 
 Node* root;
 Symbol* head = NULL;
@@ -71,7 +72,7 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
                 }
             }
 
-            printTableSymbols(head);
+            generateAndOpenSymbolTable(head, "symbol_table");
         }
     ;
 

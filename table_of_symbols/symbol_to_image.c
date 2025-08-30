@@ -163,47 +163,48 @@ void generateSymbolTableDotFile(const Symbol* ts, const char* filename) {
 }
 
 // Función todo-en-uno: genera DOT, crea imagen PNG y la abre automáticamente
+// ...existing code...
 void generateAndOpenSymbolTable(const Symbol* ts, const char* base_filename) {
     char dot_filename[256];
     char png_filename[256];
     char command[1024];
-    
-    // Generar nombres de archivos
-    snprintf(dot_filename, sizeof(dot_filename), "%s.dot", base_filename);
-    snprintf(png_filename, sizeof(png_filename), "%s.png", base_filename);
-    
+
+    // Siempre guardar en la carpeta table_of_symbols
+    snprintf(dot_filename, sizeof(dot_filename), "table_of_symbols/%s.dot", base_filename);
+    snprintf(png_filename, sizeof(png_filename), "table_of_symbols/%s.png", base_filename);
+
     printf("=== GENERANDO VISUALIZACIÓN ===\n");
-    
+
     // Paso 1: Generar archivo DOT
     FILE* file = fopen(dot_filename, "w");
     if (file == NULL) {
         printf("Error: No se pudo crear el archivo %s\n", dot_filename);
         return;
     }
-    
+
     fprintf(file, "digraph SymbolTable {\n");
     fprintf(file, "  rankdir=LR;\n");
     fprintf(file, "  node [fontname=\"Arial\", fontsize=10];\n");
     fprintf(file, "  edge [fontname=\"Arial\", fontsize=10];\n");
-    
+
     if (ts == NULL) {
         fprintf(file, "  empty [label=\"Tabla vacía\", shape=plaintext, fontsize=14];\n");
     } else {
         int nodeCount = 0;
         generateSymbolDotNodes(ts, file, &nodeCount);
-        
+
         fprintf(file, "  title [label=\"Tabla de Símbolos\", shape=plaintext, fontsize=16, fontweight=bold];\n");
         fprintf(file, "  title -> node0 [style=invisible];\n");
     }
-    
+
     fprintf(file, "}\n");
     fclose(file);
     printf("Archivo DOT generado: %s\n", dot_filename);
-    
+
     // Paso 2: Generar imagen PNG
     snprintf(command, sizeof(command), "dot -Tpng %s -o %s 2>/dev/null", dot_filename, png_filename);
     int result = system(command);
-    
+
     if (result != 0) {
         printf("Error: No se pudo generar la imagen PNG.\n");
         printf("Instala Graphviz: sudo apt install graphviz\n");
@@ -211,24 +212,20 @@ void generateAndOpenSymbolTable(const Symbol* ts, const char* base_filename) {
         return;
     }
     printf("Imagen PNG generada: %s\n", png_filename);
-    
+
     // Paso 3: Abrir la imagen automáticamente
     printf("Abriendo imagen...\n");
-    
+
 #ifdef __APPLE__
-    // macOS
     snprintf(command, sizeof(command), "open %s", png_filename);
 #elif __linux__
-    // Linux
     snprintf(command, sizeof(command), "xdg-open %s 2>/dev/null", png_filename);
 #elif _WIN32
-    // Windows
     snprintf(command, sizeof(command), "start %s", png_filename);
 #else
-    // Sistema desconocido - intentar xdg-open
     snprintf(command, sizeof(command), "xdg-open %s 2>/dev/null", png_filename);
 #endif
-    
+
     int open_result = system(command);
     if (open_result == 0) {
         printf("Imagen abierta en el visor predeterminado\n");
@@ -236,6 +233,7 @@ void generateAndOpenSymbolTable(const Symbol* ts, const char* base_filename) {
         printf("No se pudo abrir automáticamente la imagen\n");
         printf("Abre manualmente: %s\n", png_filename);
     }
-    
+
     printf("=== PROCESO COMPLETADO ===\n");
 }
+// ...existing code...

@@ -45,7 +45,7 @@
 extern int yydebug;
 #endif
 /* "%code requires" blocks.  */
-#line 14 "calc-sintaxis.y"
+#line 15 "calc-sintaxis.y"
 
     #include "ast/ast.h"
     #include "table_of_symbols/table_symbols.h"
@@ -92,7 +92,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 25 "calc-sintaxis.y"
+#line 26 "calc-sintaxis.y"
 
     int ival;
     char *sval;
