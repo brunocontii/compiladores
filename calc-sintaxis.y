@@ -111,6 +111,12 @@ decs: dec
 
 dec: tipo TOKEN_ID TOKEN_PYC
     {
+        Info *id_buscado = searchByName(head, $2);
+        if (id_buscado != NULL) {
+            printf("Error: variable '%s' ya declarada\n", $2);
+            YYERROR;
+        }
+
         Info *dec_info = malloc(sizeof(Info));
         dec_info->name = strdup("dec");
         dec_info->token = DEC;
@@ -147,24 +153,20 @@ sentens: senten
 
 senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
         {
-            Info *id_info = malloc(sizeof(Info));
-            id_info->name = strdup($1);
-            id_info->token = ID;
-            Node* id = createLeaf(id_info);
-
-            Info *igual_info = malloc(sizeof(Info));
-            igual_info->op = strdup("=");
-            igual_info->token = OP;
-
-            Info *id_buscado = searchByName(head, id_info->name);
+            Info *id_buscado = searchByName(head, $1);
             if (id_buscado == NULL) {
-                // variable no declarada ver que hacer
-                $$ = NULL;
-            }else if (id_buscado->type != $3->info->type) {
-                // error de tipos ver que hacer
-                $$ = NULL;
+                printf("Error: variable '%s' no declarada\n", $1);
+                YYERROR;
+            } else if (id_buscado->type != $3->info->type) {
+                printf("Error: tipos incompatibles en la asignacion\n");
+                YYERROR;
             } else {
-                // esta todo bien, creo el arbol
+                Node *id = createLeaf(id_buscado);
+
+                Info *igual_info = malloc(sizeof(Info));
+                igual_info->op = strdup("=");
+                igual_info->token = OP;
+
                 $$ = createTree(igual_info, id, $3);
             }
         }
@@ -226,10 +228,13 @@ exp: exp TOKEN_OP_MAS exp
         }
     | TOKEN_ID
         {
-            Info *id_info = malloc(sizeof(Info));
-            id_info->name = strdup($1);
-            id_info->token = ID;
-            $$ = createLeaf(id_info);
+            Info *id_buscado = searchByName(head, $1);
+            if (id_buscado == NULL) {
+                printf("Error: variable '%s' no declarada\n", $1);
+                YYERROR;
+            } else {
+                $$ = createLeaf(id_buscado);
+            }
         }
     ;
 

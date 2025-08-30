@@ -39,7 +39,7 @@ Symbol* insertByName(Symbol* ts, Info *info) {
 
 Info* searchByName(Symbol* ts, char* name) {
     if (ts == NULL) {
-        printf("Error: Symbol table is empty.\n");
+        printf("The symbol table is empty, there is no item to search for.\n");
         return NULL;
     }
     Symbol* aux = ts;

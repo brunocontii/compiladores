@@ -524,9 +524,9 @@ static const yytype_int8 yytranslate[] =
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    48,    48,    79,    85,    91,    99,   103,   112,   135,
-     139,   148,   171,   178,   187,   194,   201,   208,   215,   219,
-     227
+       0,    48,    48,    79,    85,    91,    99,   103,   112,   141,
+     145,   154,   173,   180,   189,   196,   203,   210,   217,   221,
+     229
 };
 #endif
 
@@ -1195,6 +1195,12 @@ yyreduce:
   case 8: /* dec: tipo TOKEN_ID TOKEN_PYC  */
 #line 113 "calc-sintaxis.y"
     {
+        Info *id_buscado = searchByName(head, (yyvsp[-1].sval));
+        if (id_buscado != NULL) {
+            printf("Error: variable '%s' ya declarada\n", (yyvsp[-1].sval));
+            YYERROR;
+        }
+
         Info *dec_info = malloc(sizeof(Info));
         dec_info->name = strdup("dec");
         dec_info->token = DEC;
@@ -1214,131 +1220,127 @@ yyreduce:
 
         (yyval.node) = createTree(dec_info, tipo, id);
     }
-#line 1218 "calc-sintaxis.tab.c"
+#line 1224 "calc-sintaxis.tab.c"
     break;
 
   case 9: /* sentens: senten  */
-#line 136 "calc-sintaxis.y"
+#line 142 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1226 "calc-sintaxis.tab.c"
+#line 1232 "calc-sintaxis.tab.c"
     break;
 
   case 10: /* sentens: senten sentens  */
-#line 140 "calc-sintaxis.y"
+#line 146 "calc-sintaxis.y"
         {
             Info *sentens_info = malloc(sizeof(Info));
             sentens_info->name = strdup("sentest");
             sentens_info->token = SENTENS;
             (yyval.node) = createTree(sentens_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1237 "calc-sintaxis.tab.c"
+#line 1243 "calc-sintaxis.tab.c"
     break;
 
   case 11: /* senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC  */
-#line 149 "calc-sintaxis.y"
+#line 155 "calc-sintaxis.y"
         {
-            Info *id_info = malloc(sizeof(Info));
-            id_info->name = strdup((yyvsp[-3].sval));
-            id_info->token = ID;
-            Node* id = createLeaf(id_info);
-
-            Info *igual_info = malloc(sizeof(Info));
-            igual_info->op = strdup("=");
-            igual_info->token = OP;
-
-            Info *id_buscado = searchByName(head, id_info->name);
+            Info *id_buscado = searchByName(head, (yyvsp[-3].sval));
             if (id_buscado == NULL) {
-                // variable no declarada ver que hacer
-                (yyval.node) = NULL;
-            }else if (id_buscado->type != (yyvsp[-1].node)->info->type) {
-                // error de tipos ver que hacer
-                (yyval.node) = NULL;
+                printf("Error: variable '%s' no declarada\n", (yyvsp[-3].sval));
+                YYERROR;
+            } else if (id_buscado->type != (yyvsp[-1].node)->info->type) {
+                printf("Error: tipos incompatibles en la asignacion\n");
+                YYERROR;
             } else {
-                // esta todo bien, creo el arbol
+                Node *id = createLeaf(id_buscado);
+
+                Info *igual_info = malloc(sizeof(Info));
+                igual_info->op = strdup("=");
+                igual_info->token = OP;
+
                 (yyval.node) = createTree(igual_info, id, (yyvsp[-1].node));
             }
         }
-#line 1264 "calc-sintaxis.tab.c"
+#line 1266 "calc-sintaxis.tab.c"
     break;
 
   case 12: /* senten: TOKEN_RETURN exp TOKEN_PYC  */
-#line 172 "calc-sintaxis.y"
+#line 174 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createTree(ret_info, (yyvsp[-1].node), NULL);
         }
-#line 1275 "calc-sintaxis.tab.c"
+#line 1277 "calc-sintaxis.tab.c"
     break;
 
   case 13: /* senten: TOKEN_RETURN TOKEN_PYC  */
-#line 179 "calc-sintaxis.y"
+#line 181 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createLeaf(ret_info);
         }
-#line 1286 "calc-sintaxis.tab.c"
+#line 1288 "calc-sintaxis.tab.c"
     break;
 
   case 14: /* exp: exp TOKEN_OP_MAS exp  */
-#line 188 "calc-sintaxis.y"
+#line 190 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("+");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1297 "calc-sintaxis.tab.c"
+#line 1299 "calc-sintaxis.tab.c"
     break;
 
   case 15: /* exp: exp TOKEN_OP_MULT exp  */
-#line 195 "calc-sintaxis.y"
+#line 197 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("*");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1308 "calc-sintaxis.tab.c"
+#line 1310 "calc-sintaxis.tab.c"
     break;
 
   case 16: /* exp: exp TOKEN_OP_RES exp  */
-#line 202 "calc-sintaxis.y"
+#line 204 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("-");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1319 "calc-sintaxis.tab.c"
+#line 1321 "calc-sintaxis.tab.c"
     break;
 
   case 17: /* exp: exp TOKEN_OP_DIV exp  */
-#line 209 "calc-sintaxis.y"
+#line 211 "calc-sintaxis.y"
         {
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("/");
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1330 "calc-sintaxis.tab.c"
+#line 1332 "calc-sintaxis.tab.c"
     break;
 
   case 18: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
-#line 216 "calc-sintaxis.y"
+#line 218 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[-1].node);
         }
-#line 1338 "calc-sintaxis.tab.c"
+#line 1340 "calc-sintaxis.tab.c"
     break;
 
   case 19: /* exp: TOKEN_NUM  */
-#line 220 "calc-sintaxis.y"
+#line 222 "calc-sintaxis.y"
         {
             Info *num_info = malloc(sizeof(Info));
             num_info->i_value = (yyvsp[0].ival);
@@ -1346,22 +1348,25 @@ yyreduce:
             num_info->type = INTEGER;
             (yyval.node) = createLeaf(num_info);
         }
-#line 1350 "calc-sintaxis.tab.c"
+#line 1352 "calc-sintaxis.tab.c"
     break;
 
   case 20: /* exp: TOKEN_ID  */
-#line 228 "calc-sintaxis.y"
+#line 230 "calc-sintaxis.y"
         {
-            Info *id_info = malloc(sizeof(Info));
-            id_info->name = strdup((yyvsp[0].sval));
-            id_info->token = ID;
-            (yyval.node) = createLeaf(id_info);
+            Info *id_buscado = searchByName(head, (yyvsp[0].sval));
+            if (id_buscado == NULL) {
+                printf("Error: variable '%s' no declarada\n", (yyvsp[0].sval));
+                YYERROR;
+            } else {
+                (yyval.node) = createLeaf(id_buscado);
+            }
         }
-#line 1361 "calc-sintaxis.tab.c"
+#line 1366 "calc-sintaxis.tab.c"
     break;
 
 
-#line 1365 "calc-sintaxis.tab.c"
+#line 1370 "calc-sintaxis.tab.c"
 
       default: break;
     }
@@ -1554,7 +1559,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 236 "calc-sintaxis.y"
+#line 241 "calc-sintaxis.y"
 
 
 
