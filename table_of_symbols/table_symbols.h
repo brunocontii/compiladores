@@ -9,9 +9,8 @@ typedef struct Symbol {
 } Symbol;
 
 
-Symbol* createSymbol(Info *info); // crea un simbolo de la tabla
-Symbol* insertByName(Symbol* ts, Info *info); //inserta un elemento en la tabla (no puede haber duplicados)
-Info* searchByName(Symbol* ts, char* name); // busca un elemento en la tabla
-                                            // si lo encuentra devuelve un puntero a info, si no NULL
+Symbol* createSymbol(Info *info);
+Symbol* insertByName(Symbol* ts, Info *info);
+Info* searchByName(Symbol* ts, char* name);
 
 #endif

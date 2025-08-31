@@ -1,7 +1,9 @@
 int main () {
     int a;
+    bool z;
     int b;
     int suma;
+    z = false;
     a = 33;
     b = 55;
     suma = a + b;

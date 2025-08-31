@@ -16,6 +16,7 @@ typedef struct {
     bool b_value;
     char* name;
     char* op;
+    char* bool_string;
     char del;
     Type type;
     Token token;
@@ -30,6 +31,6 @@ typedef struct Node {
 Node* createTree(Info *info, Node* left, Node* right);
 Node* createLeaf(Info *info);
 
-void generateDotFile(Node* root, const char* filename);
+void generateASTDotFile(Node* root, const char* base_filename);
 
 #endif

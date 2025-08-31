@@ -33,9 +33,10 @@ Symbol* head = NULL;
 %token TOKEN_INT TOKEN_BOOL TOKEN_VOID TOKEN_MAIN TOKEN_RETURN 
 %token TOKEN_OP_RES TOKEN_OP_MAS TOKEN_OP_MULT TOKEN_OP_DIV TOKEN_IGUAL
 %token TOKEN_PYC TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A TOKEN_LLA_C
+%token TOKEN_VTRUE TOKEN_VFALSE
 %token <sval> TOKEN_ID
 %token <ival> TOKEN_NUM
-
+TRUE
 %right TOKEN_IGUAL
 %left TOKEN_OP_MAS TOKEN_OP_RES
 %left TOKEN_OP_MULT TOKEN_OP_DIV
@@ -61,18 +62,10 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
             $$ = createTree(tipo_info, main_node, NULL);
             root = $$;
                         
-            if (root != NULL) {
-                generateDotFile(root, "prog_ast.dot");
-                int result = system("dot -Tpng prog_ast.dot -o prog_ast.png");
-                
-                if (result == 0) {
-                    system("open prog_ast.png");
-                } else {
-                    printf("Error al generar la imagen.\n");
-                }
+            if (root != NULL && head != NULL) {
+                generateASTDotFile(root, "prog_ast");
+                generateTSDotFile(head, "symbol_table");
             }
-
-            generateAndOpenSymbolTable(head, "symbol_table");
         }
     ;
 
@@ -255,6 +248,24 @@ exp: exp TOKEN_OP_MAS exp
             } else {
                 $$ = createLeaf(id_buscado);
             }
+        }
+    | TOKEN_VTRUE
+        {
+            Info *booleano = malloc(sizeof(Info));
+            booleano->bool_string = strdup("true");
+            booleano->b_value = true;
+            booleano->type = BOOLEAN;
+            booleano->token = BOOL;
+            $$ = createLeaf(booleano);
+        }
+    | TOKEN_VFALSE
+        {
+            Info *booleano = malloc(sizeof(Info));
+            booleano->bool_string = strdup("false");
+            booleano->b_value = false;
+            booleano->type = BOOLEAN;
+            booleano->token = BOOL;
+            $$ = createLeaf(booleano);
         }
     ;
 

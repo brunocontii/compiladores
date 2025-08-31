@@ -26,6 +26,10 @@ num [0-9]
 
 "return"	{ printf("RETURN : %s\n",yytext); return TOKEN_RETURN; }
 
+"true"	{ printf("VALOR BOOLEANO : %s\n",yytext); return TOKEN_VTRUE; }
+
+"false"	{ printf("VALOR BOOLEANO : %s\n",yytext); return TOKEN_VFALSE; }
+
 {letra}({letra}|{num})*		{ 
 								printf("ID : %s\n",yytext);
 								yylval.sval = strdup(yytext); // para copiar el valor de yytext

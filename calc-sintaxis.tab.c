@@ -127,16 +127,19 @@ enum yysymbol_kind_t
   YYSYMBOL_TOKEN_PAR_C = 15,               /* TOKEN_PAR_C  */
   YYSYMBOL_TOKEN_LLA_A = 16,               /* TOKEN_LLA_A  */
   YYSYMBOL_TOKEN_LLA_C = 17,               /* TOKEN_LLA_C  */
-  YYSYMBOL_TOKEN_ID = 18,                  /* TOKEN_ID  */
-  YYSYMBOL_TOKEN_NUM = 19,                 /* TOKEN_NUM  */
-  YYSYMBOL_YYACCEPT = 20,                  /* $accept  */
-  YYSYMBOL_prog = 21,                      /* prog  */
-  YYSYMBOL_tipo = 22,                      /* tipo  */
-  YYSYMBOL_decs = 23,                      /* decs  */
-  YYSYMBOL_dec = 24,                       /* dec  */
-  YYSYMBOL_sentens = 25,                   /* sentens  */
-  YYSYMBOL_senten = 26,                    /* senten  */
-  YYSYMBOL_exp = 27                        /* exp  */
+  YYSYMBOL_TOKEN_VTRUE = 18,               /* TOKEN_VTRUE  */
+  YYSYMBOL_TOKEN_VFALSE = 19,              /* TOKEN_VFALSE  */
+  YYSYMBOL_TOKEN_ID = 20,                  /* TOKEN_ID  */
+  YYSYMBOL_TOKEN_NUM = 21,                 /* TOKEN_NUM  */
+  YYSYMBOL_TRUE = 22,                      /* TRUE  */
+  YYSYMBOL_YYACCEPT = 23,                  /* $accept  */
+  YYSYMBOL_prog = 24,                      /* prog  */
+  YYSYMBOL_tipo = 25,                      /* tipo  */
+  YYSYMBOL_decs = 26,                      /* decs  */
+  YYSYMBOL_dec = 27,                       /* dec  */
+  YYSYMBOL_sentens = 28,                   /* sentens  */
+  YYSYMBOL_senten = 29,                    /* senten  */
+  YYSYMBOL_exp = 30                        /* exp  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -464,19 +467,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   49
+#define YYLAST   51
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  20
+#define YYNTOKENS  23
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  20
+#define YYNRULES  22
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  42
+#define YYNSTATES  44
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   274
+#define YYMAXUTOK   277
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -517,16 +520,16 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19
+      15,    16,    17,    18,    19,    20,    21,    22
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-static const yytype_uint8 yyrline[] =
+static const yytype_int16 yyrline[] =
 {
-       0,    48,    48,    79,    85,    91,    99,   103,   112,   141,
-     145,   154,   173,   180,   189,   201,   213,   225,   237,   241,
-     249
+       0,    49,    49,    72,    78,    84,    92,    96,   105,   134,
+     138,   147,   166,   173,   182,   194,   206,   218,   230,   234,
+     242,   252,   261
 };
 #endif
 
@@ -546,8 +549,8 @@ static const char *const yytname[] =
   "TOKEN_BOOL", "TOKEN_VOID", "TOKEN_MAIN", "TOKEN_RETURN", "TOKEN_OP_RES",
   "TOKEN_OP_MAS", "TOKEN_OP_MULT", "TOKEN_OP_DIV", "TOKEN_IGUAL",
   "TOKEN_PYC", "TOKEN_PAR_A", "TOKEN_PAR_C", "TOKEN_LLA_A", "TOKEN_LLA_C",
-  "TOKEN_ID", "TOKEN_NUM", "$accept", "prog", "tipo", "decs", "dec",
-  "sentens", "senten", "exp", YY_NULLPTR
+  "TOKEN_VTRUE", "TOKEN_VFALSE", "TOKEN_ID", "TOKEN_NUM", "TRUE",
+  "$accept", "prog", "tipo", "decs", "dec", "sentens", "senten", "exp", YY_NULLPTR
 };
 
 static const char *
@@ -571,11 +574,11 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      33,   -23,   -23,   -23,     3,    -1,   -23,     7,    13,    18,
-      33,     1,    -6,    33,    28,     4,    30,    26,    -6,   -23,
-     -23,   -23,   -12,   -23,   -23,    16,   -12,   -23,   -23,     5,
-     -12,   -12,   -12,   -12,   -23,    22,   -23,    29,    29,   -23,
-     -23,   -23
+      -1,   -23,   -23,   -23,     5,     3,   -23,     4,    11,     1,
+      -1,     7,    -6,    -1,     6,     2,    13,    19,    -6,   -23,
+     -23,   -23,    10,   -23,   -23,   -23,   -23,    32,    10,   -23,
+     -23,    24,    10,    10,    10,    10,   -23,    38,   -23,    -3,
+      -3,   -23,   -23,   -23
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -585,21 +588,21 @@ static const yytype_int8 yydefact[] =
 {
        0,     3,     4,     5,     0,     0,     1,     0,     0,     0,
        0,     0,     0,     6,     0,     0,     0,     0,     9,     7,
-       8,    13,     0,    20,    19,     0,     0,     2,    10,     0,
-       0,     0,     0,     0,    12,     0,    18,    16,    14,    15,
-      17,    11
+       8,    13,     0,    21,    22,    20,    19,     0,     0,     2,
+      10,     0,     0,     0,     0,     0,    12,     0,    18,    16,
+      14,    15,    17,    11
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -23,   -23,    44,    32,   -23,    31,   -23,   -22
+     -23,   -23,    37,    25,   -23,    26,   -23,   -22
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     4,    11,    12,    13,    17,    18,    25
+       0,     4,    11,    12,    13,    17,    18,    27
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -607,39 +610,41 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      29,    15,    22,     6,    35,     7,    23,    24,    37,    38,
-      39,    40,    16,    30,    31,    32,    33,    21,    22,    14,
-      36,     8,    23,    24,    30,    31,    32,    33,     9,    34,
-      30,    31,    32,    33,    10,    41,     1,     2,     3,    32,
-      33,    20,    26,    27,     5,    19,     0,     0,     0,    28
+      31,    15,     1,     2,     3,     6,    37,    34,    35,     7,
+      39,    40,    41,    42,    16,    21,    22,    10,     8,    20,
+      23,    24,    25,    26,    22,    28,     9,    14,    23,    24,
+      25,    26,    32,    33,    34,    35,    29,     5,    19,    38,
+      32,    33,    34,    35,    30,    36,    32,    33,    34,    35,
+       0,    43
 };
 
 static const yytype_int8 yycheck[] =
 {
-      22,     7,    14,     0,    26,     6,    18,    19,    30,    31,
-      32,    33,    18,     8,     9,    10,    11,    13,    14,    18,
-      15,    14,    18,    19,     8,     9,    10,    11,    15,    13,
-       8,     9,    10,    11,    16,    13,     3,     4,     5,    10,
-      11,    13,    12,    17,     0,    13,    -1,    -1,    -1,    18
+      22,     7,     3,     4,     5,     0,    28,    10,    11,     6,
+      32,    33,    34,    35,    20,    13,    14,    16,    14,    13,
+      18,    19,    20,    21,    14,    12,    15,    20,    18,    19,
+      20,    21,     8,     9,    10,    11,    17,     0,    13,    15,
+       8,     9,    10,    11,    18,    13,     8,     9,    10,    11,
+      -1,    13
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     5,    21,    22,     0,     6,    14,    15,
-      16,    22,    23,    24,    18,     7,    18,    25,    26,    23,
-      13,    13,    14,    18,    19,    27,    12,    17,    25,    27,
-       8,     9,    10,    11,    13,    27,    15,    27,    27,    27,
-      27,    13
+       0,     3,     4,     5,    24,    25,     0,     6,    14,    15,
+      16,    25,    26,    27,    20,     7,    20,    28,    29,    26,
+      13,    13,    14,    18,    19,    20,    21,    30,    12,    17,
+      28,    30,     8,     9,    10,    11,    13,    30,    15,    30,
+      30,    30,    30,    13
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    20,    21,    22,    22,    22,    23,    23,    24,    25,
-      25,    26,    26,    26,    27,    27,    27,    27,    27,    27,
-      27
+       0,    23,    24,    25,    25,    25,    26,    26,    27,    28,
+      28,    29,    29,    29,    30,    30,    30,    30,    30,    30,
+      30,    30,    30
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
@@ -647,7 +652,7 @@ static const yytype_int8 yyr2[] =
 {
        0,     2,     8,     1,     1,     1,     1,     2,     3,     1,
        2,     4,     3,     2,     3,     3,     3,     3,     3,     1,
-       1
+       1,     1,     1
 };
 
 
@@ -1111,7 +1116,7 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA_C  */
-#line 49 "calc-sintaxis.y"
+#line 50 "calc-sintaxis.y"
         {   
             printf("No hay errores \n"); 
             
@@ -1127,73 +1132,65 @@ yyreduce:
             (yyval.node) = createTree(tipo_info, main_node, NULL);
             root = (yyval.node);
                         
-            if (root != NULL) {
-                generateDotFile(root, "prog_ast.dot");
-                int result = system("dot -Tpng prog_ast.dot -o prog_ast.png");
-                
-                if (result == 0) {
-                    system("open prog_ast.png");
-                } else {
-                    printf("Error al generar la imagen.\n");
-                }
+            if (root != NULL && head != NULL) {
+                generateASTDotFile(root, "prog_ast");
+                generateTSDotFile(head, "symbol_table");
             }
-
-            generateAndOpenSymbolTable(head, "symbol_table");
         }
-#line 1144 "calc-sintaxis.tab.c"
+#line 1141 "calc-sintaxis.tab.c"
     break;
 
   case 3: /* tipo: TOKEN_INT  */
-#line 80 "calc-sintaxis.y"
+#line 73 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("int");
             (yyval.tipo_info).token = INT;
             (yyval.tipo_info).type = INTEGER;
         }
-#line 1154 "calc-sintaxis.tab.c"
+#line 1151 "calc-sintaxis.tab.c"
     break;
 
   case 4: /* tipo: TOKEN_BOOL  */
-#line 86 "calc-sintaxis.y"
+#line 79 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("bool");
             (yyval.tipo_info).token = BOOL;
             (yyval.tipo_info).type = BOOLEAN;
         }
-#line 1164 "calc-sintaxis.tab.c"
+#line 1161 "calc-sintaxis.tab.c"
     break;
 
   case 5: /* tipo: TOKEN_VOID  */
-#line 92 "calc-sintaxis.y"
+#line 85 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("void");
             (yyval.tipo_info).token = T_VOID;
             (yyval.tipo_info).type = TYPE_VOID;
         }
-#line 1174 "calc-sintaxis.tab.c"
+#line 1171 "calc-sintaxis.tab.c"
     break;
 
   case 6: /* decs: dec  */
-#line 100 "calc-sintaxis.y"
+#line 93 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1182 "calc-sintaxis.tab.c"
+#line 1179 "calc-sintaxis.tab.c"
     break;
 
   case 7: /* decs: dec decs  */
-#line 104 "calc-sintaxis.y"
+#line 97 "calc-sintaxis.y"
         {
             Info *decs_info = malloc(sizeof(Info));
             decs_info->name = strdup("decs");
             decs_info->token = DECS;
             (yyval.node) = createTree(decs_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1193 "calc-sintaxis.tab.c"
+#line 1190 "calc-sintaxis.tab.c"
     break;
 
   case 8: /* dec: tipo TOKEN_ID TOKEN_PYC  */
-#line 113 "calc-sintaxis.y"
+#line 106 "calc-sintaxis.y"
     {
         Info *id_buscado = searchByName(head, (yyvsp[-1].sval));
         if (id_buscado != NULL) {
@@ -1220,30 +1217,30 @@ yyreduce:
 
         (yyval.node) = createTree(dec_info, tipo, id);
     }
-#line 1224 "calc-sintaxis.tab.c"
+#line 1221 "calc-sintaxis.tab.c"
     break;
 
   case 9: /* sentens: senten  */
-#line 142 "calc-sintaxis.y"
+#line 135 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1232 "calc-sintaxis.tab.c"
+#line 1229 "calc-sintaxis.tab.c"
     break;
 
   case 10: /* sentens: senten sentens  */
-#line 146 "calc-sintaxis.y"
+#line 139 "calc-sintaxis.y"
         {
             Info *sentens_info = malloc(sizeof(Info));
             sentens_info->name = strdup("sentest");
             sentens_info->token = SENTENS;
             (yyval.node) = createTree(sentens_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1243 "calc-sintaxis.tab.c"
+#line 1240 "calc-sintaxis.tab.c"
     break;
 
   case 11: /* senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC  */
-#line 155 "calc-sintaxis.y"
+#line 148 "calc-sintaxis.y"
         {
             Info *id_buscado = searchByName(head, (yyvsp[-3].sval));
             if (id_buscado == NULL) {
@@ -1262,33 +1259,33 @@ yyreduce:
                 (yyval.node) = createTree(igual_info, id, (yyvsp[-1].node));
             }
         }
-#line 1266 "calc-sintaxis.tab.c"
+#line 1263 "calc-sintaxis.tab.c"
     break;
 
   case 12: /* senten: TOKEN_RETURN exp TOKEN_PYC  */
-#line 174 "calc-sintaxis.y"
+#line 167 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createTree(ret_info, (yyvsp[-1].node), NULL);
         }
-#line 1277 "calc-sintaxis.tab.c"
+#line 1274 "calc-sintaxis.tab.c"
     break;
 
   case 13: /* senten: TOKEN_RETURN TOKEN_PYC  */
-#line 181 "calc-sintaxis.y"
+#line 174 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createLeaf(ret_info);
         }
-#line 1288 "calc-sintaxis.tab.c"
+#line 1285 "calc-sintaxis.tab.c"
     break;
 
   case 14: /* exp: exp TOKEN_OP_MAS exp  */
-#line 190 "calc-sintaxis.y"
+#line 183 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
                 printf("Error: operacion suma requiere operandos enteros\n");
@@ -1300,11 +1297,11 @@ yyreduce:
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1304 "calc-sintaxis.tab.c"
+#line 1301 "calc-sintaxis.tab.c"
     break;
 
   case 15: /* exp: exp TOKEN_OP_MULT exp  */
-#line 202 "calc-sintaxis.y"
+#line 195 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
                 printf("Error: operacion multiplicacion requiere operandos enteros\n");
@@ -1316,11 +1313,11 @@ yyreduce:
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1320 "calc-sintaxis.tab.c"
+#line 1317 "calc-sintaxis.tab.c"
     break;
 
   case 16: /* exp: exp TOKEN_OP_RES exp  */
-#line 214 "calc-sintaxis.y"
+#line 207 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
                 printf("Error: operacion resta requiere operandos enteros\n");
@@ -1332,11 +1329,11 @@ yyreduce:
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1336 "calc-sintaxis.tab.c"
+#line 1333 "calc-sintaxis.tab.c"
     break;
 
   case 17: /* exp: exp TOKEN_OP_DIV exp  */
-#line 226 "calc-sintaxis.y"
+#line 219 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
                 printf("Error: operacion division requiere operandos enteros\n");
@@ -1348,19 +1345,19 @@ yyreduce:
             op_info->token = OP;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1352 "calc-sintaxis.tab.c"
+#line 1349 "calc-sintaxis.tab.c"
     break;
 
   case 18: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
-#line 238 "calc-sintaxis.y"
+#line 231 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[-1].node);
         }
-#line 1360 "calc-sintaxis.tab.c"
+#line 1357 "calc-sintaxis.tab.c"
     break;
 
   case 19: /* exp: TOKEN_NUM  */
-#line 242 "calc-sintaxis.y"
+#line 235 "calc-sintaxis.y"
         {
             Info *num_info = malloc(sizeof(Info));
             num_info->i_value = (yyvsp[0].ival);
@@ -1368,11 +1365,11 @@ yyreduce:
             num_info->type = INTEGER;
             (yyval.node) = createLeaf(num_info);
         }
-#line 1372 "calc-sintaxis.tab.c"
+#line 1369 "calc-sintaxis.tab.c"
     break;
 
   case 20: /* exp: TOKEN_ID  */
-#line 250 "calc-sintaxis.y"
+#line 243 "calc-sintaxis.y"
         {
             Info *id_buscado = searchByName(head, (yyvsp[0].sval));
             if (id_buscado == NULL) {
@@ -1382,11 +1379,37 @@ yyreduce:
                 (yyval.node) = createLeaf(id_buscado);
             }
         }
-#line 1386 "calc-sintaxis.tab.c"
+#line 1383 "calc-sintaxis.tab.c"
+    break;
+
+  case 21: /* exp: TOKEN_VTRUE  */
+#line 253 "calc-sintaxis.y"
+        {
+            Info *booleano = malloc(sizeof(Info));
+            booleano->bool_string = strdup("true");
+            booleano->b_value = true;
+            booleano->type = BOOLEAN;
+            booleano->token = BOOL;
+            (yyval.node) = createLeaf(booleano);
+        }
+#line 1396 "calc-sintaxis.tab.c"
+    break;
+
+  case 22: /* exp: TOKEN_VFALSE  */
+#line 262 "calc-sintaxis.y"
+        {
+            Info *booleano = malloc(sizeof(Info));
+            booleano->bool_string = strdup("false");
+            booleano->b_value = false;
+            booleano->type = BOOLEAN;
+            booleano->token = BOOL;
+            (yyval.node) = createLeaf(booleano);
+        }
+#line 1409 "calc-sintaxis.tab.c"
     break;
 
 
-#line 1390 "calc-sintaxis.tab.c"
+#line 1413 "calc-sintaxis.tab.c"
 
       default: break;
     }
@@ -1579,7 +1602,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 261 "calc-sintaxis.y"
+#line 272 "calc-sintaxis.y"
 
 
 
