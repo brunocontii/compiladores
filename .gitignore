@@ -8,3 +8,7 @@ table_of_symbols/table_symbols
 table_of_symbols/symbol_table.dot
 table_of_symbols/symbol_table.png
 .vscode/
+calc-sintaxis.tab.c
+calc-sintaxis.tab.h
+lex.yy.c
+prog
