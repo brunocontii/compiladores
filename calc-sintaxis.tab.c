@@ -129,17 +129,20 @@ enum yysymbol_kind_t
   YYSYMBOL_TOKEN_LLA_C = 17,               /* TOKEN_LLA_C  */
   YYSYMBOL_TOKEN_VTRUE = 18,               /* TOKEN_VTRUE  */
   YYSYMBOL_TOKEN_VFALSE = 19,              /* TOKEN_VFALSE  */
-  YYSYMBOL_TOKEN_ID = 20,                  /* TOKEN_ID  */
-  YYSYMBOL_TOKEN_NUM = 21,                 /* TOKEN_NUM  */
-  YYSYMBOL_TRUE = 22,                      /* TRUE  */
-  YYSYMBOL_YYACCEPT = 23,                  /* $accept  */
-  YYSYMBOL_prog = 24,                      /* prog  */
-  YYSYMBOL_tipo = 25,                      /* tipo  */
-  YYSYMBOL_decs = 26,                      /* decs  */
-  YYSYMBOL_dec = 27,                       /* dec  */
-  YYSYMBOL_sentens = 28,                   /* sentens  */
-  YYSYMBOL_senten = 29,                    /* senten  */
-  YYSYMBOL_exp = 30                        /* exp  */
+  YYSYMBOL_TOKEN_OP_AND = 20,              /* TOKEN_OP_AND  */
+  YYSYMBOL_TOKEN_OP_OR = 21,               /* TOKEN_OP_OR  */
+  YYSYMBOL_TOKEN_OP_NOT = 22,              /* TOKEN_OP_NOT  */
+  YYSYMBOL_TOKEN_ID = 23,                  /* TOKEN_ID  */
+  YYSYMBOL_TOKEN_NUM = 24,                 /* TOKEN_NUM  */
+  YYSYMBOL_TRUE = 25,                      /* TRUE  */
+  YYSYMBOL_YYACCEPT = 26,                  /* $accept  */
+  YYSYMBOL_prog = 27,                      /* prog  */
+  YYSYMBOL_tipo = 28,                      /* tipo  */
+  YYSYMBOL_decs = 29,                      /* decs  */
+  YYSYMBOL_dec = 30,                       /* dec  */
+  YYSYMBOL_sentens = 31,                   /* sentens  */
+  YYSYMBOL_senten = 32,                    /* senten  */
+  YYSYMBOL_exp = 33                        /* exp  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -467,19 +470,19 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  6
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   51
+#define YYLAST   70
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  23
+#define YYNTOKENS  26
 /* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  8
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  22
+#define YYNRULES  25
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  44
+#define YYNSTATES  50
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   277
+#define YYMAXUTOK   280
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -520,16 +523,17 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21,    22
+      15,    16,    17,    18,    19,    20,    21,    22,    23,    24,
+      25
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    49,    49,    72,    78,    84,    92,    96,   105,   134,
-     138,   147,   166,   173,   182,   194,   206,   218,   230,   234,
-     242,   252,   261
+       0,    52,    52,    75,    81,    87,    95,    99,   108,   137,
+     141,   150,   169,   176,   185,   198,   211,   224,   237,   250,
+     263,   276,   280,   288,   298,   307
 };
 #endif
 
@@ -549,8 +553,9 @@ static const char *const yytname[] =
   "TOKEN_BOOL", "TOKEN_VOID", "TOKEN_MAIN", "TOKEN_RETURN", "TOKEN_OP_RES",
   "TOKEN_OP_MAS", "TOKEN_OP_MULT", "TOKEN_OP_DIV", "TOKEN_IGUAL",
   "TOKEN_PYC", "TOKEN_PAR_A", "TOKEN_PAR_C", "TOKEN_LLA_A", "TOKEN_LLA_C",
-  "TOKEN_VTRUE", "TOKEN_VFALSE", "TOKEN_ID", "TOKEN_NUM", "TRUE",
-  "$accept", "prog", "tipo", "decs", "dec", "sentens", "senten", "exp", YY_NULLPTR
+  "TOKEN_VTRUE", "TOKEN_VFALSE", "TOKEN_OP_AND", "TOKEN_OP_OR",
+  "TOKEN_OP_NOT", "TOKEN_ID", "TOKEN_NUM", "TRUE", "$accept", "prog",
+  "tipo", "decs", "dec", "sentens", "senten", "exp", YY_NULLPTR
 };
 
 static const char *
@@ -574,11 +579,11 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-      -1,   -23,   -23,   -23,     5,     3,   -23,     4,    11,     1,
-      -1,     7,    -6,    -1,     6,     2,    13,    19,    -6,   -23,
-     -23,   -23,    10,   -23,   -23,   -23,   -23,    32,    10,   -23,
-     -23,    24,    10,    10,    10,    10,   -23,    38,   -23,    -3,
-      -3,   -23,   -23,   -23
+      64,   -23,   -23,   -23,     2,    10,   -23,    -6,     4,     9,
+      64,    23,    -3,    64,    14,    38,    41,    15,    -3,   -23,
+     -23,   -23,   -13,   -23,   -23,   -13,   -23,   -23,    13,   -13,
+     -23,   -23,    20,    55,   -13,   -13,   -13,   -13,   -23,   -13,
+     -13,    34,   -23,    39,    39,   -23,   -23,    55,    28,   -23
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -588,21 +593,21 @@ static const yytype_int8 yydefact[] =
 {
        0,     3,     4,     5,     0,     0,     1,     0,     0,     0,
        0,     0,     0,     6,     0,     0,     0,     0,     9,     7,
-       8,    13,     0,    21,    22,    20,    19,     0,     0,     2,
-      10,     0,     0,     0,     0,     0,    12,     0,    18,    16,
-      14,    15,    17,    11
+       8,    13,     0,    24,    25,     0,    23,    22,     0,     0,
+       2,    10,     0,    20,     0,     0,     0,     0,    12,     0,
+       0,     0,    21,    16,    14,    15,    17,    18,    19,    11
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -23,   -23,    37,    25,   -23,    26,   -23,   -22
+     -23,   -23,    58,    46,   -23,    52,   -23,   -22
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
 static const yytype_int8 yydefgoto[] =
 {
-       0,     4,    11,    12,    13,    17,    18,    27
+       0,     4,    11,    12,    13,    17,    18,    28
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
@@ -610,49 +615,53 @@ static const yytype_int8 yydefgoto[] =
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
 static const yytype_int8 yytable[] =
 {
-      31,    15,     1,     2,     3,     6,    37,    34,    35,     7,
-      39,    40,    41,    42,    16,    21,    22,    10,     8,    20,
-      23,    24,    25,    26,    22,    28,     9,    14,    23,    24,
-      25,    26,    32,    33,    34,    35,    29,     5,    19,    38,
-      32,    33,    34,    35,    30,    36,    32,    33,    34,    35,
-       0,    43
+      32,    22,     6,    33,    15,    23,    24,    41,     8,    25,
+      26,    27,    43,    44,    45,    46,     7,    47,    48,     9,
+      16,    34,    35,    36,    37,    10,    38,    20,    34,    35,
+      36,    37,    30,    39,    40,    42,    34,    35,    36,    37,
+      39,    40,    34,    35,    36,    37,    14,    49,    39,    36,
+      37,    21,    22,    29,    39,    40,    23,    24,     5,    19,
+      25,    26,    27,    34,    35,    36,    37,     1,     2,     3,
+      31
 };
 
 static const yytype_int8 yycheck[] =
 {
-      22,     7,     3,     4,     5,     0,    28,    10,    11,     6,
-      32,    33,    34,    35,    20,    13,    14,    16,    14,    13,
-      18,    19,    20,    21,    14,    12,    15,    20,    18,    19,
-      20,    21,     8,     9,    10,    11,    17,     0,    13,    15,
-       8,     9,    10,    11,    18,    13,     8,     9,    10,    11,
-      -1,    13
+      22,    14,     0,    25,     7,    18,    19,    29,    14,    22,
+      23,    24,    34,    35,    36,    37,     6,    39,    40,    15,
+      23,     8,     9,    10,    11,    16,    13,    13,     8,     9,
+      10,    11,    17,    20,    21,    15,     8,     9,    10,    11,
+      20,    21,     8,     9,    10,    11,    23,    13,    20,    10,
+      11,    13,    14,    12,    20,    21,    18,    19,     0,    13,
+      22,    23,    24,     8,     9,    10,    11,     3,     4,     5,
+      18
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,     3,     4,     5,    24,    25,     0,     6,    14,    15,
-      16,    25,    26,    27,    20,     7,    20,    28,    29,    26,
-      13,    13,    14,    18,    19,    20,    21,    30,    12,    17,
-      28,    30,     8,     9,    10,    11,    13,    30,    15,    30,
-      30,    30,    30,    13
+       0,     3,     4,     5,    27,    28,     0,     6,    14,    15,
+      16,    28,    29,    30,    23,     7,    23,    31,    32,    29,
+      13,    13,    14,    18,    19,    22,    23,    24,    33,    12,
+      17,    31,    33,    33,     8,     9,    10,    11,    13,    20,
+      21,    33,    15,    33,    33,    33,    33,    33,    33,    13
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    23,    24,    25,    25,    25,    26,    26,    27,    28,
-      28,    29,    29,    29,    30,    30,    30,    30,    30,    30,
-      30,    30,    30
+       0,    26,    27,    28,    28,    28,    29,    29,    30,    31,
+      31,    32,    32,    32,    33,    33,    33,    33,    33,    33,
+      33,    33,    33,    33,    33,    33
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
        0,     2,     8,     1,     1,     1,     1,     2,     3,     1,
-       2,     4,     3,     2,     3,     3,     3,     3,     3,     1,
-       1,     1,     1
+       2,     4,     3,     2,     3,     3,     3,     3,     3,     3,
+       2,     3,     1,     1,     1,     1
 };
 
 
@@ -1116,9 +1125,9 @@ yyreduce:
   switch (yyn)
     {
   case 2: /* prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA_C  */
-#line 50 "calc-sintaxis.y"
+#line 53 "calc-sintaxis.y"
         {   
-            printf("No hay errores \n"); 
+            printf("There are no errors \n"); 
             
             Info *tipo_info = malloc(sizeof(Info));
             tipo_info->name = strdup((yyvsp[-7].tipo_info).name);
@@ -1137,64 +1146,64 @@ yyreduce:
                 generateTSDotFile(head, "symbol_table");
             }
         }
-#line 1141 "calc-sintaxis.tab.c"
+#line 1150 "calc-sintaxis.tab.c"
     break;
 
   case 3: /* tipo: TOKEN_INT  */
-#line 73 "calc-sintaxis.y"
+#line 76 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("int");
             (yyval.tipo_info).token = INT;
             (yyval.tipo_info).type = INTEGER;
         }
-#line 1151 "calc-sintaxis.tab.c"
+#line 1160 "calc-sintaxis.tab.c"
     break;
 
   case 4: /* tipo: TOKEN_BOOL  */
-#line 79 "calc-sintaxis.y"
+#line 82 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("bool");
             (yyval.tipo_info).token = BOOL;
             (yyval.tipo_info).type = BOOLEAN;
         }
-#line 1161 "calc-sintaxis.tab.c"
+#line 1170 "calc-sintaxis.tab.c"
     break;
 
   case 5: /* tipo: TOKEN_VOID  */
-#line 85 "calc-sintaxis.y"
+#line 88 "calc-sintaxis.y"
         {
             (yyval.tipo_info).name = strdup("void");
             (yyval.tipo_info).token = T_VOID;
             (yyval.tipo_info).type = TYPE_VOID;
         }
-#line 1171 "calc-sintaxis.tab.c"
+#line 1180 "calc-sintaxis.tab.c"
     break;
 
   case 6: /* decs: dec  */
-#line 93 "calc-sintaxis.y"
+#line 96 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1179 "calc-sintaxis.tab.c"
+#line 1188 "calc-sintaxis.tab.c"
     break;
 
   case 7: /* decs: dec decs  */
-#line 97 "calc-sintaxis.y"
+#line 100 "calc-sintaxis.y"
         {
             Info *decs_info = malloc(sizeof(Info));
             decs_info->name = strdup("decs");
             decs_info->token = DECS;
             (yyval.node) = createTree(decs_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1190 "calc-sintaxis.tab.c"
+#line 1199 "calc-sintaxis.tab.c"
     break;
 
   case 8: /* dec: tipo TOKEN_ID TOKEN_PYC  */
-#line 106 "calc-sintaxis.y"
+#line 109 "calc-sintaxis.y"
     {
         Info *id_buscado = searchByName(head, (yyvsp[-1].sval));
         if (id_buscado != NULL) {
-            printf("Error: variable '%s' ya declarada\n", (yyvsp[-1].sval));
+            printf("Error: Variable '%s' already declared\n", (yyvsp[-1].sval));
             YYERROR;
         }
 
@@ -1217,37 +1226,37 @@ yyreduce:
 
         (yyval.node) = createTree(dec_info, tipo, id);
     }
-#line 1221 "calc-sintaxis.tab.c"
+#line 1230 "calc-sintaxis.tab.c"
     break;
 
   case 9: /* sentens: senten  */
-#line 135 "calc-sintaxis.y"
+#line 138 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[0].node);
         }
-#line 1229 "calc-sintaxis.tab.c"
+#line 1238 "calc-sintaxis.tab.c"
     break;
 
   case 10: /* sentens: senten sentens  */
-#line 139 "calc-sintaxis.y"
+#line 142 "calc-sintaxis.y"
         {
             Info *sentens_info = malloc(sizeof(Info));
             sentens_info->name = strdup("sentest");
             sentens_info->token = SENTENS;
             (yyval.node) = createTree(sentens_info, (yyvsp[-1].node), (yyvsp[0].node));
         }
-#line 1240 "calc-sintaxis.tab.c"
+#line 1249 "calc-sintaxis.tab.c"
     break;
 
   case 11: /* senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC  */
-#line 148 "calc-sintaxis.y"
+#line 151 "calc-sintaxis.y"
         {
             Info *id_buscado = searchByName(head, (yyvsp[-3].sval));
             if (id_buscado == NULL) {
-                printf("Error: variable '%s' no declarada\n", (yyvsp[-3].sval));
+                printf("Error: Undeclared variable '%s'\n", (yyvsp[-3].sval));
                 YYERROR;
             } else if (id_buscado->type != (yyvsp[-1].node)->info->type) {
-                printf("Error: tipos incompatibles en la asignacion\n");
+                printf("Error: Incompatible types in assignment\n");
                 YYERROR;
             } else {
                 Node *id = createLeaf(id_buscado);
@@ -1259,105 +1268,160 @@ yyreduce:
                 (yyval.node) = createTree(igual_info, id, (yyvsp[-1].node));
             }
         }
-#line 1263 "calc-sintaxis.tab.c"
+#line 1272 "calc-sintaxis.tab.c"
     break;
 
   case 12: /* senten: TOKEN_RETURN exp TOKEN_PYC  */
-#line 167 "calc-sintaxis.y"
+#line 170 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createTree(ret_info, (yyvsp[-1].node), NULL);
         }
-#line 1274 "calc-sintaxis.tab.c"
+#line 1283 "calc-sintaxis.tab.c"
     break;
 
   case 13: /* senten: TOKEN_RETURN TOKEN_PYC  */
-#line 174 "calc-sintaxis.y"
+#line 177 "calc-sintaxis.y"
         {
             Info *ret_info = malloc(sizeof(Info));
             ret_info->name = strdup("return");
             ret_info->token = RETURN;
             (yyval.node) = createLeaf(ret_info);
         }
-#line 1285 "calc-sintaxis.tab.c"
+#line 1294 "calc-sintaxis.tab.c"
     break;
 
   case 14: /* exp: exp TOKEN_OP_MAS exp  */
-#line 183 "calc-sintaxis.y"
+#line 186 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
-                printf("Error: operacion suma requiere operandos enteros\n");
+                printf("Error: Addition (+) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("+");
             op_info->token = OP;
+            op_info->type = INTEGER;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1301 "calc-sintaxis.tab.c"
+#line 1311 "calc-sintaxis.tab.c"
     break;
 
   case 15: /* exp: exp TOKEN_OP_MULT exp  */
-#line 195 "calc-sintaxis.y"
+#line 199 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
-                printf("Error: operacion multiplicacion requiere operandos enteros\n");
+                printf("Error: Multiplication (*) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("*");
             op_info->token = OP;
+            op_info->type = INTEGER;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1317 "calc-sintaxis.tab.c"
+#line 1328 "calc-sintaxis.tab.c"
     break;
 
   case 16: /* exp: exp TOKEN_OP_RES exp  */
-#line 207 "calc-sintaxis.y"
+#line 212 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
-                printf("Error: operacion resta requiere operandos enteros\n");
+                printf("Error: Subtraction (-) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("-");
             op_info->token = OP;
+            op_info->type = INTEGER;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1333 "calc-sintaxis.tab.c"
+#line 1345 "calc-sintaxis.tab.c"
     break;
 
   case 17: /* exp: exp TOKEN_OP_DIV exp  */
-#line 219 "calc-sintaxis.y"
+#line 225 "calc-sintaxis.y"
         {
             if ((yyvsp[-2].node)->info->type != INTEGER || (yyvsp[0].node)->info->type != INTEGER) {
-                printf("Error: operacion division requiere operandos enteros\n");
+                printf("Error: Division (/) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("/");
             op_info->token = OP;
+            op_info->type = INTEGER;
             (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
         }
-#line 1349 "calc-sintaxis.tab.c"
+#line 1362 "calc-sintaxis.tab.c"
     break;
 
-  case 18: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
-#line 231 "calc-sintaxis.y"
+  case 18: /* exp: exp TOKEN_OP_AND exp  */
+#line 238 "calc-sintaxis.y"
+        {
+            if ((yyvsp[-2].node)->info->type != BOOLEAN || (yyvsp[0].node)->info->type != BOOLEAN) {
+                printf("Error: Operation 'and' requires Boolean operators\n");
+                YYERROR;
+            }
+
+            Info *op_info = malloc(sizeof(Info));
+            op_info->op = strdup("and");
+            op_info->token = OP;
+            op_info->type = BOOLEAN;
+            (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
+        }
+#line 1379 "calc-sintaxis.tab.c"
+    break;
+
+  case 19: /* exp: exp TOKEN_OP_OR exp  */
+#line 251 "calc-sintaxis.y"
+        {
+            if ((yyvsp[-2].node)->info->type != BOOLEAN || (yyvsp[0].node)->info->type != BOOLEAN) {
+                printf("Error: Operation 'or' requires Boolean operators\n");
+                YYERROR;
+            }
+
+            Info *op_info = malloc(sizeof(Info));
+            op_info->op = strdup("or");
+            op_info->token = OP;
+            op_info->type = BOOLEAN;
+            (yyval.node) = createTree(op_info, (yyvsp[-2].node), (yyvsp[0].node));
+        }
+#line 1396 "calc-sintaxis.tab.c"
+    break;
+
+  case 20: /* exp: TOKEN_OP_NOT exp  */
+#line 264 "calc-sintaxis.y"
+        {
+            if ((yyvsp[0].node)->info->type != BOOLEAN) {
+                printf("Error: Operation 'not' require Boolean operator\n");
+                YYERROR;
+            }
+
+            Info *op_info = malloc(sizeof(Info));
+            op_info->op = strdup("not");
+            op_info->token = OP;
+            op_info->type = BOOLEAN;
+            (yyval.node) = createTree(op_info, NULL, (yyvsp[0].node));
+        }
+#line 1413 "calc-sintaxis.tab.c"
+    break;
+
+  case 21: /* exp: TOKEN_PAR_A exp TOKEN_PAR_C  */
+#line 277 "calc-sintaxis.y"
         {
             (yyval.node) = (yyvsp[-1].node);
         }
-#line 1357 "calc-sintaxis.tab.c"
+#line 1421 "calc-sintaxis.tab.c"
     break;
 
-  case 19: /* exp: TOKEN_NUM  */
-#line 235 "calc-sintaxis.y"
+  case 22: /* exp: TOKEN_NUM  */
+#line 281 "calc-sintaxis.y"
         {
             Info *num_info = malloc(sizeof(Info));
             num_info->i_value = (yyvsp[0].ival);
@@ -1365,11 +1429,11 @@ yyreduce:
             num_info->type = INTEGER;
             (yyval.node) = createLeaf(num_info);
         }
-#line 1369 "calc-sintaxis.tab.c"
+#line 1433 "calc-sintaxis.tab.c"
     break;
 
-  case 20: /* exp: TOKEN_ID  */
-#line 243 "calc-sintaxis.y"
+  case 23: /* exp: TOKEN_ID  */
+#line 289 "calc-sintaxis.y"
         {
             Info *id_buscado = searchByName(head, (yyvsp[0].sval));
             if (id_buscado == NULL) {
@@ -1379,11 +1443,11 @@ yyreduce:
                 (yyval.node) = createLeaf(id_buscado);
             }
         }
-#line 1383 "calc-sintaxis.tab.c"
+#line 1447 "calc-sintaxis.tab.c"
     break;
 
-  case 21: /* exp: TOKEN_VTRUE  */
-#line 253 "calc-sintaxis.y"
+  case 24: /* exp: TOKEN_VTRUE  */
+#line 299 "calc-sintaxis.y"
         {
             Info *booleano = malloc(sizeof(Info));
             booleano->bool_string = strdup("true");
@@ -1392,11 +1456,11 @@ yyreduce:
             booleano->token = BOOL;
             (yyval.node) = createLeaf(booleano);
         }
-#line 1396 "calc-sintaxis.tab.c"
+#line 1460 "calc-sintaxis.tab.c"
     break;
 
-  case 22: /* exp: TOKEN_VFALSE  */
-#line 262 "calc-sintaxis.y"
+  case 25: /* exp: TOKEN_VFALSE  */
+#line 308 "calc-sintaxis.y"
         {
             Info *booleano = malloc(sizeof(Info));
             booleano->bool_string = strdup("false");
@@ -1405,11 +1469,11 @@ yyreduce:
             booleano->token = BOOL;
             (yyval.node) = createLeaf(booleano);
         }
-#line 1409 "calc-sintaxis.tab.c"
+#line 1473 "calc-sintaxis.tab.c"
     break;
 
 
-#line 1413 "calc-sintaxis.tab.c"
+#line 1477 "calc-sintaxis.tab.c"
 
       default: break;
     }
@@ -1602,7 +1666,7 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 272 "calc-sintaxis.y"
+#line 318 "calc-sintaxis.y"
 
 
 

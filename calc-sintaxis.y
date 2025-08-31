@@ -33,11 +33,14 @@ Symbol* head = NULL;
 %token TOKEN_INT TOKEN_BOOL TOKEN_VOID TOKEN_MAIN TOKEN_RETURN 
 %token TOKEN_OP_RES TOKEN_OP_MAS TOKEN_OP_MULT TOKEN_OP_DIV TOKEN_IGUAL
 %token TOKEN_PYC TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A TOKEN_LLA_C
-%token TOKEN_VTRUE TOKEN_VFALSE
+%token TOKEN_VTRUE TOKEN_VFALSE TOKEN_OP_AND TOKEN_OP_OR TOKEN_OP_NOT
 %token <sval> TOKEN_ID
 %token <ival> TOKEN_NUM
 TRUE
 %right TOKEN_IGUAL
+%left TOKEN_OP_OR
+%left TOKEN_OP_AND
+%right TOKEN_OP_NOT
 %left TOKEN_OP_MAS TOKEN_OP_RES
 %left TOKEN_OP_MULT TOKEN_OP_DIV
 
@@ -48,7 +51,7 @@ TRUE
 
 prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA_C 
         {   
-            printf("No hay errores \n"); 
+            printf("There are no errors \n"); 
             
             Info *tipo_info = malloc(sizeof(Info));
             tipo_info->name = strdup($1.name);
@@ -106,7 +109,7 @@ dec: tipo TOKEN_ID TOKEN_PYC
     {
         Info *id_buscado = searchByName(head, $2);
         if (id_buscado != NULL) {
-            printf("Error: variable '%s' ya declarada\n", $2);
+            printf("Error: Variable '%s' already declared\n", $2);
             YYERROR;
         }
 
@@ -148,10 +151,10 @@ senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
         {
             Info *id_buscado = searchByName(head, $1);
             if (id_buscado == NULL) {
-                printf("Error: variable '%s' no declarada\n", $1);
+                printf("Error: Undeclared variable '%s'\n", $1);
                 YYERROR;
             } else if (id_buscado->type != $3->info->type) {
-                printf("Error: tipos incompatibles en la asignacion\n");
+                printf("Error: Incompatible types in assignment\n");
                 YYERROR;
             } else {
                 Node *id = createLeaf(id_buscado);
@@ -182,50 +185,93 @@ senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
 exp: exp TOKEN_OP_MAS exp
         {
             if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
-                printf("Error: operacion suma requiere operandos enteros\n");
+                printf("Error: Addition (+) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("+");
             op_info->token = OP;
+            op_info->type = INTEGER;
             $$ = createTree(op_info, $1, $3);
         }
     | exp TOKEN_OP_MULT exp
         {
             if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
-                printf("Error: operacion multiplicacion requiere operandos enteros\n");
+                printf("Error: Multiplication (*) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("*");
             op_info->token = OP;
+            op_info->type = INTEGER;
             $$ = createTree(op_info, $1, $3);
         }
     | exp TOKEN_OP_RES exp
         {
             if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
-                printf("Error: operacion resta requiere operandos enteros\n");
+                printf("Error: Subtraction (-) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("-");
             op_info->token = OP;
+            op_info->type = INTEGER;
             $$ = createTree(op_info, $1, $3);
         }
     | exp TOKEN_OP_DIV exp
         {
             if ($1->info->type != INTEGER || $3->info->type != INTEGER) {
-                printf("Error: operacion division requiere operandos enteros\n");
+                printf("Error: Division (/) operation requires integer operands\n");
                 YYERROR;
             }
 
             Info *op_info = malloc(sizeof(Info));
             op_info->op = strdup("/");
             op_info->token = OP;
+            op_info->type = INTEGER;
             $$ = createTree(op_info, $1, $3);
+        }
+    | exp TOKEN_OP_AND exp
+        {
+            if ($1->info->type != BOOLEAN || $3->info->type != BOOLEAN) {
+                printf("Error: Operation 'and' requires Boolean operators\n");
+                YYERROR;
+            }
+
+            Info *op_info = malloc(sizeof(Info));
+            op_info->op = strdup("and");
+            op_info->token = OP;
+            op_info->type = BOOLEAN;
+            $$ = createTree(op_info, $1, $3);
+        } 
+    | exp TOKEN_OP_OR exp
+        {
+            if ($1->info->type != BOOLEAN || $3->info->type != BOOLEAN) {
+                printf("Error: Operation 'or' requires Boolean operators\n");
+                YYERROR;
+            }
+
+            Info *op_info = malloc(sizeof(Info));
+            op_info->op = strdup("or");
+            op_info->token = OP;
+            op_info->type = BOOLEAN;
+            $$ = createTree(op_info, $1, $3);
+        }
+    | TOKEN_OP_NOT exp
+        {
+            if ($2->info->type != BOOLEAN) {
+                printf("Error: Operation 'not' require Boolean operator\n");
+                YYERROR;
+            }
+
+            Info *op_info = malloc(sizeof(Info));
+            op_info->op = strdup("not");
+            op_info->token = OP;
+            op_info->type = BOOLEAN;
+            $$ = createTree(op_info, NULL, $2);
         }
     | TOKEN_PAR_A exp TOKEN_PAR_C
         {

@@ -84,9 +84,12 @@ extern int yydebug;
     TOKEN_LLA_C = 272,             /* TOKEN_LLA_C  */
     TOKEN_VTRUE = 273,             /* TOKEN_VTRUE  */
     TOKEN_VFALSE = 274,            /* TOKEN_VFALSE  */
-    TOKEN_ID = 275,                /* TOKEN_ID  */
-    TOKEN_NUM = 276,               /* TOKEN_NUM  */
-    TRUE = 277                     /* TRUE  */
+    TOKEN_OP_AND = 275,            /* TOKEN_OP_AND  */
+    TOKEN_OP_OR = 276,             /* TOKEN_OP_OR  */
+    TOKEN_OP_NOT = 277,            /* TOKEN_OP_NOT  */
+    TOKEN_ID = 278,                /* TOKEN_ID  */
+    TOKEN_NUM = 279,               /* TOKEN_NUM  */
+    TRUE = 280                     /* TRUE  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -102,7 +105,7 @@ union YYSTYPE
     Node* node;
     InfoTipo tipo_info;
 
-#line 106 "calc-sintaxis.tab.h"
+#line 109 "calc-sintaxis.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

@@ -30,6 +30,12 @@ num [0-9]
 
 "false"	{ printf("VALOR BOOLEANO : %s\n",yytext); return TOKEN_VFALSE; }
 
+"and"	{ printf("OP_BOOL_AND : %s\n",yytext); return TOKEN_OP_AND; }
+
+"or"	{ printf("OP_BOOL_OR : %s\n",yytext); return TOKEN_OP_OR; }
+
+"not"	{ printf("OP_BOOL_NOT : %s\n",yytext); return TOKEN_OP_NOT; }
+
 {letra}({letra}|{num})*		{ 
 								printf("ID : %s\n",yytext);
 								yylval.sval = strdup(yytext); // para copiar el valor de yytext
