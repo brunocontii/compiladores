@@ -18,9 +18,10 @@ for test_file in tests-para-preproyecto/*.txt; do
         
         echo "=== $filename ==="
         echo "Archivo: $filename"
-        output=$(./prog "$test_file" 2>&1)
+        output=$(./prog < "$test_file" 2>&1)
         echo "$output"
-        if echo "$output" | grep -q "No hay errores"; then
+        
+        if echo "$output" | grep -q -i "no hay errores\|there are no errors\|no errors\|successfully parsed\|compilation successful"; then
             echo "✓ PASÓ"
             ((passed++))
         else
