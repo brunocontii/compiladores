@@ -6,6 +6,7 @@
 #include "ast/ast.h"
 #include "table_of_symbols/table_symbols.h"
 #include "table_of_symbols/symbol_to_image.h"
+#include "interpreter/interpreter.h"
 
 Node* root;
 Symbol* head = NULL;
@@ -15,6 +16,7 @@ Symbol* head = NULL;
 %code requires {
     #include "ast/ast.h"
     #include "table_of_symbols/table_symbols.h"
+    #include "interpreter/interpreter.h"
 
     typedef struct {
         char* name;
@@ -68,6 +70,7 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
             if (root != NULL && head != NULL) {
                 generateASTDotFile(root, "prog_ast");
                 generateTSDotFile(head, "symbol_table");
+                interpreter(root, head);
             }
         }
     ;
@@ -161,7 +164,7 @@ senten: TOKEN_ID TOKEN_IGUAL exp TOKEN_PYC
 
                 Info *igual_info = malloc(sizeof(Info));
                 igual_info->op = strdup("=");
-                igual_info->token = OP;
+                igual_info->token = IGUAL;
 
                 $$ = createTree(igual_info, id, $3);
             }

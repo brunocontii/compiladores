@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef enum {
-    INT,BOOL,T_VOID,MAIN,RETURN,NUM,ID,OP,DEL,SENTENS,DECS,DEC
+    INT,BOOL,T_VOID,MAIN,RETURN,NUM,ID,OP,DEL,SENTENS,DECS,DEC,IGUAL
 } Token;
 
 typedef enum {
@@ -32,5 +32,7 @@ Node* createTree(Info *info, Node* left, Node* right);
 Node* createLeaf(Info *info);
 
 void generateASTDotFile(Node* root, const char* base_filename);
+
+Node* searchNodeByToken(Node* root, Token token);
 
 #endif

@@ -18,6 +18,7 @@ const char* getTokenString(Token token) {
         case SENTENS: return "T_SENTENS";
         case DECS: return "T_DECS";
         case DEC: return "T_DEC";
+        case IGUAL: return "T_IGUAL";
         default: return "UNKNOWN";
     }
 }

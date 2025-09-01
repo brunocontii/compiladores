@@ -23,3 +23,17 @@ Node* createLeaf(Info *info) {
     newNode->right = NULL;
     return newNode;
 }
+
+Node* searchNodeByToken(Node* root, Token token) {
+    if (root == NULL) {
+        return NULL;
+    }
+    if (root->info->token == token) {
+        return root;
+    }
+    Node* resultLeft = searchNodeByToken(root->left, token);
+    if (resultLeft != NULL) {
+        return resultLeft;
+    }
+    return searchNodeByToken(root->right, token);
+}

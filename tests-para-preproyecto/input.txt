@@ -3,9 +3,9 @@ int main () {
     bool z;
     int b;
     int suma;
-    z = true or false;
+    z = not true or false;
     a = 33;
     b = 55;
     suma = 3 + 2;
-    return suma;
+    return z;
 }
