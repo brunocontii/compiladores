@@ -20,6 +20,6 @@ lex.yy.c: calc-lexico.l calc-sintaxis.tab.h
 	flex calc-lexico.l
 
 clean:
-	rm -f $(TARGET) calc-sintaxis.tab.c calc-sintaxis.tab.h lex.yy.c *.dot *.png table_of_symbols/*.dot table_of_symbols/*.png
+	rm -f $(TARGET) calc-sintaxis.tab.c calc-sintaxis.tab.h lex.yy.c *.dot *.png table_of_symbols/*.dot table_of_symbols/*.png ast_to_asm.txt
 
 .PHONY: all clean

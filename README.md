@@ -2,7 +2,7 @@
 
 ## Descripción
 
-Este es un preproyecto para la materia **Taller de Diseño de Software** que implementa un compilador/intérprete básico para un lenguaje de programación simple. El preproyecto incluye análisis léxico, análisis sintáctico, generación de AST (Árbol de Sintaxis Abstracta), tabla de símbolos e interpretación.
+Este es un preproyecto para la materia **Taller de Diseño de Software** que implementa un compilador/intérprete básico para un lenguaje de programación simple. El preproyecto incluye análisis léxico, análisis sintáctico, generación de AST (Árbol de Sintaxis Abstracta), tabla de símbolos, interpretación y generación de código pseudo-assembler.
 
 ## Características del Lenguaje
 
@@ -39,16 +39,16 @@ int main() {
 
 ```
 ├── ast/                     # Módulo de AST
+├── generate_asm/            # Generador de pseudo-assembler
 ├── interpreter/             # Intérprete
 ├── table_of_symbols/        # Tabla de símbolos
 ├── tests-para-preproyecto/  # Casos de prueba
 ├── calc-lexico.l            # Analizador léxico (Flex)
 ├── calc-sintaxis.y          # Analizador sintáctico (Bison)
 ├── Makefile                 # Archivo para compilación automática
-├── Makefile                 # ver que poner
 ├── preproyecto.pdf          # PDF con las consignas
-├── script                   # Script para compilar manualmente
 ├── run_tests.sh             # Script para ejecutar todos los tests
+├── script.sh                # Script para compilar manualmente
 └── README.md
 ```
 
@@ -96,7 +96,7 @@ flex calc-lexico.l
 bison -d calc-sintaxis.y
 
 # Compilar todo
-gcc -o calc lex.yy.c calc-sintaxis.tab.c ast/*.c table_of_symbols/*.c interpreter/*.c
+gcc -o prog lex.yy.c calc-sintaxis.tab.c ast/ast.c ast/ast_to_image.c table_of_symbols/table_symbols.c table_of_symbols/symbol_to_image.c interpreter/interpreter.c generate_asm/generate_asm.c -lfl
 ```
 
 ### Ejecutar con Archivo de Entrada
@@ -115,6 +115,7 @@ El compilador genera los siguientes archivos:
 5. **prog_ast.png** - Imagen visual del AST
 6. **symbol_table.dot** - Representación de la tabla de símbolos en formato DOT
 7. **symbol_table.png** - Imagen visual de la tabla de símbolos
+8. **ast_to_asm.txt** - Código pseudo-assembler generado
 
 ## Funcionalidades
 
@@ -147,6 +148,11 @@ El compilador genera los siguientes archivos:
 - Evaluación de expresiones aritméticas y lógicas
 - Manejo de asignaciones y retornos
 
+### ✅ Generador de Pseudo-Assembler
+- Traducción del AST a código pseudo-assembler
+- Instrucciones simples y legibles
+- Generación automática de código
+
 ## Casos de Prueba
 
 El directorio `tests-para-preproyecto/` contiene ejemplos que demuestran:
@@ -161,44 +167,6 @@ El directorio `tests-para-preproyecto/` contiene ejemplos que demuestran:
 - Incompatibilidad de tipos en asignaciones
 - Errores de sintaxis
 
-## Gramática del Lenguaje
-
-### Estructura Principal
-```
-programa ::= tipo 'main' '(' ')' '{' declaraciones sentencias '}'
-```
-
-### Declaraciones
-```
-declaraciones ::= declaracion | declaracion declaraciones
-declaracion ::= tipo identificador ';'
-tipo ::= 'int' | 'bool' | 'void'
-```
-
-### Sentencias
-```
-sentencias ::= sentencia | sentencia sentencias
-sentencia ::= identificador '=' expresion ';'
-           | 'return' expresion ';'
-           | 'return' ';'
-```
-
-### Expresiones
-```
-expresion ::= expresion '+' expresion
-           | expresion '-' expresion
-           | expresion '*' expresion
-           | expresion '/' expresion
-           | expresion 'and' expresion
-           | expresion 'or' expresion
-           | 'not' expresion
-           | '(' expresion ')'
-           | numero
-           | identificador
-           | 'true'
-           | 'false'
-```
-
 ## Desarrollo
 
 ### Estructura de Archivos Principales
@@ -208,16 +176,7 @@ expresion ::= expresion '+' expresion
 - **ast/**: Implementación del AST y funciones de manipulación
 - **table_of_symbols/**: Implementación de la tabla de símbolos
 - **interpreter/**: Lógica de interpretación y ejecución
-
-### Precedencia de Operadores
-```
-TOKEN_IGUAL         (asociatividad derecha)
-TOKEN_OP_OR         (asociatividad izquierda)
-TOKEN_OP_AND        (asociatividad izquierda)
-TOKEN_OP_NOT        (asociatividad derecha)
-TOKEN_OP_MAS, TOKEN_OP_RES    (asociatividad izquierda)
-TOKEN_OP_MULT, TOKEN_OP_DIV   (asociatividad izquierda)
-```
+- **generate_asm/**: Generador de código pseudo-assembler
 
 ## Verificaciones Semánticas
 
@@ -239,3 +198,5 @@ TOKEN_OP_MULT, TOKEN_OP_DIV   (asociatividad izquierda)
 - No hay estructuras de control (if, while, for)
 - No hay arrays o estructuras de datos complejas
 - Solo tipos de datos básicos (int, bool, void)
+- El pseudo-assembler es una representación intermedia, no código ejecutable
+
