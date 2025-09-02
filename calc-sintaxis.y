@@ -60,6 +60,7 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
             Info *tipo_info = malloc(sizeof(Info));
             tipo_info->name = strdup($1.name);
             tipo_info->token = $1.token;
+            tipo_info->type = $1.type;
 
             Info *main_info = malloc(sizeof(Info));
             main_info->name = strdup("main");
