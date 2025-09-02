@@ -7,6 +7,7 @@
 #include "table_of_symbols/table_symbols.h"
 #include "table_of_symbols/symbol_to_image.h"
 #include "interpreter/interpreter.h"
+#include "generate_asm/generate_asm.h"
 
 Node* root;
 Symbol* head = NULL;
@@ -17,6 +18,7 @@ Symbol* head = NULL;
     #include "ast/ast.h"
     #include "table_of_symbols/table_symbols.h"
     #include "interpreter/interpreter.h"
+    #include "generate_asm/generate_asm.h"
 
     typedef struct {
         char* name;
@@ -54,7 +56,7 @@ TRUE
 prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA_C 
         {   
             printf("There are no errors \n"); 
-            
+
             Info *tipo_info = malloc(sizeof(Info));
             tipo_info->name = strdup($1.name);
             tipo_info->token = $1.token;
@@ -66,11 +68,12 @@ prog: tipo TOKEN_MAIN TOKEN_PAR_A TOKEN_PAR_C TOKEN_LLA_A decs sentens TOKEN_LLA
             Node* main_node = createTree(main_info, $6, $7);
             $$ = createTree(tipo_info, main_node, NULL);
             root = $$;
-                        
+
             if (root != NULL && head != NULL) {
                 generateASTDotFile(root, "prog_ast");
                 generateTSDotFile(head, "symbol_table");
                 interpreter(root, head);
+                generateCodeASM(root, "ast_to_asm.txt");
             }
         }
     ;

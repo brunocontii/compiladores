@@ -5,7 +5,8 @@ TARGET = prog
 SOURCES = calc-sintaxis.tab.c lex.yy.c \
 		ast/ast.c ast/ast_to_image.c \
 		table_of_symbols/table_symbols.c table_of_symbols/symbol_to_image.c \
-		interpreter/interpreter.c
+		interpreter/interpreter.c \
+		generate_asm/generate_asm.c
 
 all: $(TARGET)
 

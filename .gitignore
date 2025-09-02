@@ -11,4 +11,6 @@ table_of_symbols/symbol_table.png
 calc-sintaxis.tab.c
 calc-sintaxis.tab.h
 lex.yy.c
-prog
+symbol_table.dot
+symbol_table.png
+ast_to_asm.txt

@@ -6,6 +6,6 @@ int main () {
     z = not true or false;
     a = 33;
     b = 55;
-    suma = 3 + 2;
-    return z;
+    suma = a + b;
+    return suma;
 }

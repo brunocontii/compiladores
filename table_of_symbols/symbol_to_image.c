@@ -103,8 +103,8 @@ void generateTSDotFile(const Symbol* ts, const char* base_filename) {
     char dot_filename[256];
     char png_filename[256];
 
-    snprintf(dot_filename, sizeof(dot_filename), "table_of_symbols/%s.dot", base_filename);
-    snprintf(png_filename, sizeof(png_filename), "table_of_symbols/%s.png", base_filename);
+    snprintf(dot_filename, sizeof(dot_filename), "%s.dot", base_filename);
+    snprintf(png_filename, sizeof(png_filename), "%s.png", base_filename);
 
     FILE* file = fopen(dot_filename, "w");
     if (!file) {
