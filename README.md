@@ -104,6 +104,18 @@ gcc -o prog lex.yy.c calc-sintaxis.tab.c ast/ast.c ast/ast_to_image.c table_of_s
 ./prog < archivo_de_prueba.txt
 ```
 
+**¿Qué sucede al ejecutar?**
+1. **Análisis y procesamiento**: El compilador analiza el archivo y muestra mensajes en consola
+2. **Generación de archivos**: Se crean archivos `.dot`, `.png` y `.txt` con las visualizaciones
+3. **Apertura automática**: Se abren automáticamente las imágenes del AST y la tabla de símbolos
+4. **Salida del intérprete**: Se muestran los resultados de la ejecución del programa
+
+**Archivos que se abren automáticamente:**
+- `prog_ast.png` - Visualización del Árbol de Sintaxis Abstracta
+- `symbol_table.png` - Visualización de la Tabla de Símbolos
+
+> **Nota**: Para que se abran las imágenes automáticamente, necesitas tener `graphviz` instalado y un visor de imágenes configurado como predeterminado en tu sistema.
+
 ## Archivos Generados
 
 El compilador genera los siguientes archivos:
@@ -160,12 +172,30 @@ El directorio `tests-para-preproyecto/` contiene ejemplos que demuestran:
 - ✅ **Casos válidos**: Programas que compilan y ejecutan correctamente
 - ❌ **Casos inválidos**: Programas con errores sintácticos o semánticos
 
+### Ejecución Automática de Tests
+
+```bash
+# Ejecutar todos los tests automáticamente
+chmod +x run_tests.sh
+./run_tests.sh
+```
+
+### Tests que Fallan Intencionalmente
+
+Los siguientes tests están diseñados para fallar y demostrar la detección de errores:
+
+- **test3.txt**: Asignación de valor entero a variable booleana (incompatibilidad de tipos)
+- **test8.txt**: No tiene declaraciones de variables (consigna requiere mínimo una declaración)
+- **test11.txt**: Misma razón que test3.txt - incompatibilidad de tipos en asignación
+- **test13.txt**: No tiene declaraciones de variables (consigna requiere mínimo una declaración)
+
 ### Tipos de Errores Detectados
 - Variables no declaradas
 - Redeclaración de variables
 - Incompatibilidad de tipos en operaciones
 - Incompatibilidad de tipos en asignaciones
 - Errores de sintaxis
+- Falta de declaraciones mínimas requeridas
 
 ## Desarrollo
 

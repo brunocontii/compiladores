@@ -4,9 +4,14 @@
 #include <stdbool.h>
 #include "table_symbols.h"
 
+// Funciones externas para convertir enums a strings
 extern const char* getTokenString(Token token);
 extern const char* getTypeString(Type type);
 
+/**
+ * Imprime toda la información de un símbolo en la consola
+ * Muestra nombre, token, tipo, valores, operadores, etc.
+ */
 void printInfo(const Info* info) {
     if (!info) return;
     printf("{ ");
@@ -23,6 +28,10 @@ void printInfo(const Info* info) {
     printf("}\n");
 }
 
+/**
+ * Genera el string que se mostrará como etiqueta del símbolo en la visualización
+ * Incluye toda la información disponible del símbolo
+ */
 void getSymbolLabelString(const Info* info, char* buffer, size_t bufsize) {
     if (!info) {
         snprintf(buffer, bufsize, "NULL");
@@ -32,12 +41,14 @@ void getSymbolLabelString(const Info* info, char* buffer, size_t bufsize) {
     char temp[512] = "";
     bool first = true;
     
+    // Agregar nombre del símbolo
     if (info->name) {
         strcat(temp, "name: ");
         strcat(temp, info->name);
         first = false;
     }
     
+    // Agregar operador si existe
     if (info->op) {
         if (!first) strcat(temp, " | ");
         strcat(temp, "op: ");
@@ -45,6 +56,7 @@ void getSymbolLabelString(const Info* info, char* buffer, size_t bufsize) {
         first = false;
     }
     
+    // Agregar valor numérico si es un número
     if (info->token == NUM) {
         if (!first) strcat(temp, " | ");
         char num_str[32];
@@ -53,6 +65,7 @@ void getSymbolLabelString(const Info* info, char* buffer, size_t bufsize) {
         first = false;
     }
     
+    // Agregar valor booleano si es un booleano
     if (info->token == BOOL) {
         if (!first) strcat(temp, " | ");
         char bool_str[64];
@@ -66,6 +79,7 @@ void getSymbolLabelString(const Info* info, char* buffer, size_t bufsize) {
         first = false;
     }
     
+    // Agregar delimitador si existe
     if (info->del != 0) {
         if (!first) strcat(temp, " | ");
         char del_str[16];
@@ -74,14 +88,20 @@ void getSymbolLabelString(const Info* info, char* buffer, size_t bufsize) {
         first = false;
     }
     
+    // Si no hay información específica, usar solo el token
     if (first) {
         snprintf(temp, sizeof(temp), "%s", getTokenString(info->token));
     }
     
+    // Formato final: información + token + tipo
     snprintf(buffer, bufsize, "%s\\nToken: %s\\nType: %s", 
                 temp, getTokenString(info->token), getTypeString(info->type));
 }
 
+/**
+ * Genera recursivamente los nodos de la tabla de símbolos en formato DOT
+ * Recorre la lista enlazada y crea la representación visual
+ */
 void generateSymbolDotNodes(const Symbol* ts, FILE* file, int* nodeCount) {
     if (!ts) return;
     
@@ -89,20 +109,27 @@ void generateSymbolDotNodes(const Symbol* ts, FILE* file, int* nodeCount) {
     char labelStr[512];
     getSymbolLabelString(ts->info, labelStr, sizeof(labelStr));
     
+    // Crear el nodo con la información del símbolo
     fprintf(file, "  node%d [label=\"%s\", shape=record, style=filled, fillcolor=lightblue];\n",
             currentId, labelStr);
     
+    // Si hay un siguiente símbolo, generar enlace
     if (ts->next) {
         int nextId = *nodeCount;
-        generateSymbolDotNodes(ts->next, file, nodeCount);
+        generateSymbolDotNodes(ts->next, file, nodeCount);  // Procesar siguiente símbolo
         fprintf(file, "  node%d -> node%d [label=\"next\", color=blue];\n", currentId, nextId);
     }
 }
 
+/**
+ * Función principal que genera el archivo DOT y la imagen PNG de la tabla de símbolos
+ * Crea archivos .dot y .png para visualizar la tabla como lista enlazada
+ */
 void generateTSDotFile(const Symbol* ts, const char* base_filename) {
     char dot_filename[256];
     char png_filename[256];
 
+    // Crear nombres de archivos con extensiones
     snprintf(dot_filename, sizeof(dot_filename), "%s.dot", base_filename);
     snprintf(png_filename, sizeof(png_filename), "%s.png", base_filename);
 
@@ -112,16 +139,21 @@ void generateTSDotFile(const Symbol* ts, const char* base_filename) {
         return;
     }
 
+    // Escribir cabecera del archivo DOT
     fprintf(file, "digraph SymbolTable {\n"
-                    "  rankdir=LR;\n"
+                    "  rankdir=LR;\n"                    // Dirección: izquierda a derecha
                     "  node [fontname=\"Arial\", fontsize=10];\n"
                     "  edge [fontname=\"Arial\", fontsize=10];\n");
 
     if (!ts) {
+        // Tabla vacía
         fprintf(file, "  empty [label=\"Tabla vacía\", shape=plaintext, fontsize=14];\n");
     } else {
+        // Generar todos los nodos de la tabla
         int nodeCount = 0;
         generateSymbolDotNodes(ts, file, &nodeCount);
+        
+        // Agregar título a la visualización
         fprintf(file, "  title [label=\"Tabla de Símbolos\", shape=plaintext, fontsize=16, fontweight=bold];\n"
                         "  title -> node0 [style=invisible];\n");
     }
@@ -130,6 +162,7 @@ void generateTSDotFile(const Symbol* ts, const char* base_filename) {
     fclose(file);
     printf("Archivo DOT de la TS generado: %s\n", dot_filename);
 
+    // Intentar generar la imagen PNG usando Graphviz
     char command[1024];
     snprintf(command, sizeof(command), "dot -Tpng %s -o %s 2>/dev/null && xdg-open %s 2>/dev/null", 
                 dot_filename, png_filename, png_filename);
